@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import RadioPlayer from './RadioPlayer'
+import RadioPlayerTest from './RadioPlayer'
+import RadioStationTest from './RadioStation'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RadioPlayer />
+    <RadioPlayerTest />
+    <RadioStationTest />
   </React.StrictMode>
 )
