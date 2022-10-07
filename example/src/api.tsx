@@ -3,6 +3,8 @@
 // https://api.radio-browser.info/
 // https://github.com/ivandotv/radio-browser-api#readme
 import axios from "axios";
+// import { get_radiobrowser_base_url_random } from './get-api-server'
+
 
 export interface RadioStation {
     "changeuuid": string,
@@ -49,8 +51,11 @@ export interface Country {
     "stationcount": number
 }
 
+// const host = get_radiobrowser_base_url_random();
+
 export async function getCountries() {
-    const countriesList = await axios.get<Country>("http://de1.api.radio-browser.info/json/countries");
+    // const countriesList = await axios.get<Country>(host + "json/countries");//"http://de1.api.radio-browser.info/json/countries");
+    const countriesList = await axios.get<Country>("http://de1.api.radio-browser.info/json/countries");//"http://de1.api.radio-browser.info/json/countries");
     return countriesList.data;
 }
 
