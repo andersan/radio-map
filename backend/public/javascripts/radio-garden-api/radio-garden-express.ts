@@ -52,13 +52,13 @@ export async function customGetStreamUrl(channelId:string):Promise<string|undefi
         delete headers.common;
         return data;
     }}, ));
-    setTimeout(() => { 
-        console.log("stream keys: " + Object.keys(stream));
-        // console.log("stream headers: " + JSON.stringify(stream.headers));
-        // console.log(inspect(stream, true, 3));
-        console.log(inspect(stream, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)!);
-        console.log("hm");
-    }, 2000);
+    // setTimeout(() => { 
+    //     console.log("stream keys: " + Object.keys(stream));
+    //     // console.log("stream headers: " + JSON.stringify(stream.headers));
+    //     // console.log(inspect(stream, true, 3));
+    //     console.log(inspect(stream, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)!);
+    //     console.log("hm");
+    // }, 2000);
     
     return inspect(stream, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)![0];
 }

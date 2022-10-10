@@ -23,5 +23,6 @@
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
     "vite-plugin-cesium": "^1.2.22"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

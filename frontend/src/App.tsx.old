@@ -1,7 +1,6 @@
 import { Viewer, Entity, PointGraphics, EntityDescription, PointPrimitive, PointPrimitiveCollection } from "resium";
 import { Cartesian3, createWorldTerrain, Color } from "cesium";
 import Cesium3DTile from "cesium/Source/Scene/Cesium3DTile";
-import {fetchData, fetchJSONData} from './RGExpressRoutes'
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 // const terrainProvider = createWorldTerrain();
@@ -14,14 +13,16 @@ const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 // TODO: build place data UI/nav
 
+// const dataSource = new Cesium.CustomDataSource('myData');
 
-var placeData = await fetchJSONData();
-// console.log("placeData");
-// console.log(placeData);
+// const entity = dataSource.entities.add({
+//    position : Cesium.Cartesian3.fromDegrees(1, 2, 0),
+//    billboard : {
+//        image : 'image.png'
+//    }
+// });
 
-function getPlaceSizeInPixels(size): number {
-  return Math.max(3, Math.log(size) * 4);
-}
+// viewer.dataSources.add(dataSource);
 
 
 function App() {
@@ -65,24 +66,11 @@ function App() {
       ref={e => {
         viewer = e && e.cesiumElement;
       }}>
-      <PointPrimitiveCollection>
-        {
-          placeData["place-data"].data.list.map((place) => {
-            return (
-              <PointPrimitive
-                position={Cartesian3.fromDegrees(place.geo[0], place.geo[1], 0)}
-                color={Color.RED}
-                pixelSize={getPlaceSizeInPixels(place.size)}
-                onClick={() => {
-                  console.log("clicked on place");
-                  console.log(place.url.split("/")[2]);
-                }}
-              />
-            )
-          })
-        }
+        <PointPrimitiveCollection>
+          <PointPrimitive pixelSize={10} color={new Color(0,1,1,1)} position={Cartesian3.fromDegrees(-51.070534,0.0355735, 0)} />
+          <PointPrimitive pixelSize={30} color={new Color(0,1,1,1)} outlineColor={new Color(0,0,1,1)} outlineWidth={4} position={Cartesian3.fromDegrees(-48.490196,-1.4557794, 0)} />
       </PointPrimitiveCollection>
-      {/* <Entity
+      <Entity
         name="tokyo"
         position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}>
         <PointGraphics pixelSize={10} color={new Color(0,1,1,1)}/>
@@ -96,7 +84,7 @@ function App() {
         name="NYC"
         description="Bronx?">
         <PointGraphics pixelSize={10} color={Color.RED} outlineColor={Color.BLUE} outlineWidth={1} />
-      </Entity> */}
+      </Entity>
     </Viewer>
   );
 }
