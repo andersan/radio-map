@@ -1,0 +1,125 @@
+{
+    "apiVersion": 1,
+    "version": "f6971af",
+    "data": {
+        "map": "Aq7xeIiB",
+        "url": "/visit/austin-tx/Aq7xeIiB/channels",
+        "type": "page",
+        "count": 26,
+        "title": "Austin TX",
+        "subtitle": "All Stations",
+        "utcOffset": -300,
+        "content": [
+            {
+                "itemsType": "channel",
+                "type": "list",
+                "items": [
+                    {
+                        "href": "/listen/radio-105-3-the-bat-fm/tB57QcU0",
+                        "title": "105.3 The Bat FM"
+                    },
+                    {
+                        "href": "/listen/austin-blues-radio/_hQCemA1",
+                        "title": "Austin Blues Radio"
+                    },
+                    {
+                        "href": "/listen/boss-country-radio/ue4ed-br",
+                        "title": "Boss Country Radio"
+                    },
+                    {
+                        "href": "/listen/dj-al-ybarra/Erp1gp6h",
+                        "title": "DJ Al Ybarra"
+                    },
+                    {
+                        "href": "/listen/estereo-nuevo-pacto/UAdvz1Ad",
+                        "title": "Estereo Nuevo Pacto"
+                    },
+                    {
+                        "href": "/listen/fluffertrax/DZGmaNmu",
+                        "title": "FluffertraX"
+                    },
+                    {
+                        "href": "/listen/houswerx/FhL85inn",
+                        "title": "HOUSWERX"
+                    },
+                    {
+                        "href": "/listen/joy-512/6YLbAYqm",
+                        "title": "Joy 512"
+                    },
+                    {
+                        "href": "/listen/kazifm/ozxJHWBs",
+                        "title": "KAZI FM 88.7"
+                    },
+                    {
+                        "href": "/listen/khur-the-vault/13taplhC",
+                        "title": "KHUR - The Vault"
+                    },
+                    {
+                        "href": "/listen/kmfa/g72kAOBD",
+                        "title": "KMFA FM 89.5"
+                    },
+                    {
+                        "href": "/listen/koke-fm-koke-fm/3Vet4sE2",
+                        "title": "KOKE FM - KOKE-FM"
+                    },
+                    {
+                        "href": "/listen/koop-91-7-fm/3CdjCDsV",
+                        "title": "KOOP 91.7 FM"
+                    },
+                    {
+                        "href": "/listen/kut-90-5/B0HCeELh",
+                        "title": "KUT 90.5"
+                    },
+                    {
+                        "href": "/listen/kutx-98-9/vbFsCngB",
+                        "title": "KUTX FM 98.9"
+                    },
+                    {
+                        "href": "/listen/kvrx-fm-91-7/QjVl7rHj",
+                        "title": "KVRX-FM 91.7"
+                    },
+                    {
+                        "href": "/listen/no-agenda/ySoewxR7",
+                        "title": "No Agenda"
+                    },
+                    {
+                        "href": "/listen/planet-fabulous-radio/aGBlOY9v",
+                        "title": "Planet Fabulous Radio"
+                    },
+                    {
+                        "href": "/listen/praise-austin-urban-gospel-channel/7zPeJ1HG",
+                        "title": "Praise Austin - Urban Gospel"
+                    },
+                    {
+                        "href": "/listen/radio-fe-stereo/YawknFfX",
+                        "title": "Radio Fe Stereo"
+                    },
+                    {
+                        "href": "/listen/rap-nerd-radio/SW6vXvu5",
+                        "title": "Rap Nerd Radio"
+                    },
+                    {
+                        "href": "/listen/royalties-radio/AthsO3X3",
+                        "title": "Royalties Radio"
+                    },
+                    {
+                        "href": "/listen/sun-radio-fm-106-9/UqjmIoDD",
+                        "title": "Sun Radio 100.1fm"
+                    },
+                    {
+                        "href": "/listen/the-longhorn-station-104-9/IgRNC9Ph",
+                        "title": "The Longhorn Station 104.9"
+                    },
+                    {
+                        "href": "/listen/us-tamil-fm/8g84J_Yf",
+                        "title": "US Tamil FM"
+                    },
+                    {
+                        "href": "/listen/wxk-27-noaa-weather-radio/9cm0noSD",
+                        "title": "🌤️ WXK27 NOAA Weather Radio"
+                    }
+                ]
+            }
+        ]
+    }
+}

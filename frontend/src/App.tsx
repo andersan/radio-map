@@ -1,7 +1,7 @@
 import { Viewer, Entity, PointGraphics, EntityDescription, PointPrimitive, PointPrimitiveCollection } from "resium";
 import { Cartesian3, createWorldTerrain, Color } from "cesium";
 import Cesium3DTile from "cesium/Source/Scene/Cesium3DTile";
-import {fetchData, fetchJSONData} from './RGExpressRoutes'
+import {fetchData, fetchAllPlacesJSONData, fetchSinglePlaceChannels, fetchSinglePlaceInfo} from './RGExpressRoutes'
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 // const terrainProvider = createWorldTerrain();
@@ -15,11 +15,11 @@ const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 // TODO: build place data UI/nav
 
 
-var placeData = await fetchJSONData();
+var placeData = await fetchAllPlacesJSONData();
 // console.log("placeData");
 // console.log(placeData);
 
-function getPlaceSizeInPixels(size): number {
+function getPlaceSizeInPixels(size:number): number {
   return Math.max(3, Math.log(size) * 4);
 }
 
@@ -73,9 +73,13 @@ function App() {
                 position={Cartesian3.fromDegrees(place.geo[0], place.geo[1], 0)}
                 color={Color.RED}
                 pixelSize={getPlaceSizeInPixels(place.size)}
-                onClick={() => {
-                  console.log("clicked on place");
-                  console.log(place.url.split("/")[2]);
+                onClick={async () => {
+                  console.log("clicked on place " + place.url.split("/")[2]);
+                  console.log(await fetchSinglePlaceInfo(place.url.split("/")[2]));
+                }}
+                onMiddleClick={async () => {
+                  console.log("middle clicked on place " + place.url.split("/")[2]);
+                  console.log(await fetchSinglePlaceChannels(place.url.split("/")[2]));
                 }}
               />
             )
