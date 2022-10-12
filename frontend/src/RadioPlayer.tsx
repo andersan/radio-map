@@ -2,9 +2,9 @@ import React from 'react'
 import {Howl} from 'howler'
 
 class RadioPlayerTest extends React.Component {
-  sound;
-    constructor() {
-      super()
+    sound;
+    constructor(props:any) {
+      super(props)
       
       this.sound = new Howl({
         autoplay: true,
@@ -28,7 +28,7 @@ class RadioPlayerTest extends React.Component {
       })
       console.log("handleCorrect");
       this.sound.play();
-      document.sound = this.sound;
+      // document.sound = this.sound;
     }
     
     pauseSound = () => {

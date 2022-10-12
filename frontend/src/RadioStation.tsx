@@ -1,15 +1,16 @@
 import React from 'react'
 import {getCountries, getLanguages, getStates, getStationsByCountry, Country, RadioStation} from "./api"
+  
 
 class RadioStationTest extends React.Component {
     abc;
-    constructor() {
-      super()
+    state = {
+      countries:Array<Country>,
+      stations:Array<RadioStation> 
+    };
+    constructor(props:any) {
+      super(props)
       this.abc = "hello";
-      this.state = {
-        countries: [],//Array<Country>,
-        stations: []//Array<RadioStation> 
-      };
     }
 
     componentDidMount() {
@@ -51,7 +52,7 @@ class RadioStationTest extends React.Component {
           <div>
             <h2>Countries</h2>
             <div>
-              {this.state.countries.map(country => (
+              {Array.isArray(this.state.countries) && this.state.countries.map(country => (
               <p>name: {country.name}, # stations: {country.stationcount}, id iso 3166: {country.iso_3166_1}</p>
               )).slice(0,10)}
             </div>
@@ -59,7 +60,7 @@ class RadioStationTest extends React.Component {
           <div>
             <h2>Stations</h2>
             <div>
-              {this.state.stations.map(station => (
+              {Array.isArray(this.state.stations) && this.state.stations.map(station => (
               <p>name: {station.name}, url: {station.url}, state: {station.state}, country: {station.country}, countrycode: {station.countrycode}</p>
               )).slice(0,10)}
             </div>

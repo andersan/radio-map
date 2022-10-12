@@ -3,11 +3,11 @@ import {fetchData} from './RGExpressRoutes'
 
 
 class ExpressRoutesTest extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        data: "defualt"
-      };
+    state = {
+      data: "default"
+    }
+    constructor(props:any) {
+      super(props);
     }
 
     componentDidMount() {
@@ -26,7 +26,7 @@ class ExpressRoutesTest extends React.Component {
     render() {
       return (
         <div>
-            <h1>show something</h1>
+            <h1>show something --- new</h1>
             <div>
                 asdf
                 <p>

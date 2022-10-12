@@ -9,7 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.9",
     "axios": "^1.1.0",
+    "c137.js": "^1.94.4",
     "cesium": "^1.98.1",
     "howler": "^2.2.3",
     "react": "^18.2.0",
@@ -24,5 +29,5 @@
     "vite": "^3.1.0",
     "vite-plugin-cesium": "^1.2.22"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:5000"
 }

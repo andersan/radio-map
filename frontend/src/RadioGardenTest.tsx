@@ -3,12 +3,16 @@ import {SearchApiFp, PlacesApiFp, SearchApi, PlacesApi, Place} from './radio-gar
 
 
 class RadioGardenTest extends React.Component {
-  sound;
-    constructor() {
-      super()
+  // sound;
+  state = {
+    places:Array<Place>,
+    stations:Array<Object>//<SearchResultSource>
+  };
+    constructor(props:any) {
+      super(props)
       this.state = {
-        places: [],//Array<Place>,
-        stations: []//Array<SearchResultSource>,
+        places:Array<Place>,
+        stations:Array<Object>//<SearchResultSource>
       };
     }
 
@@ -44,10 +48,10 @@ class RadioGardenTest extends React.Component {
                 {/* {this.state.places.map(place => (
               <p>id: {place.id}, url: {place.url}, size: {place.size}, country: {place.country}, title: {place.title}, geo: {place.geo}, boost: {place.boost}</p>
               )).slice(0,10)} */}
-              {this.state.places.map(place => (
+              {Array.isArray(this.state.places) && this.state.places.map(place => (
             <p>{JSON.stringify(place)}</p>
             )).slice(0,10)}
-              {this.state.stations.map(station => (
+              {Array.isArray(this.state.stations) && this.state.stations.map(station => (
             <p>{JSON.stringify(station)}</p>
             )).slice(0,10)}
             </div>
