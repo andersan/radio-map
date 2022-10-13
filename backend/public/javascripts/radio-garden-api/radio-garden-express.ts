@@ -23,14 +23,14 @@ export async function getAllPlacesInRG():Promise<Place[]|undefined> {
     return (await new PlacesApi().araContentPlacesGet()).data?.data?.list;
 } 
 
-export async function getSpecificPlace(place:Place):Promise<AraContentPagePlaceIdGet200ResponseAllOfData|undefined> {
+export async function getSpecificPlace(placeId:string):Promise<AraContentPagePlaceIdGet200ResponseAllOfData|undefined> {
     // return a list of lists, including a list of stations, a button to get all stations, a button to show stations popular in the city, a list of nearby cities/places, and more
-    return (await new PlacesApi().araContentPagePlaceIdGet(place.id!)).data?.data;
+    return (await new PlacesApi().araContentPagePlaceIdGet(placeId)).data?.data;
 } 
 
-export async function getAllChannelsInSpecificPlace(place:Place):Promise<AraContentPagePlaceIdChannelsGet200ResponseAllOfData|undefined> {
+export async function getAllChannelsInSpecificPlace(placeId:string):Promise<AraContentPagePlaceIdChannelsGet200ResponseAllOfData|undefined> {
     // return a list of lists, including a list of stations, a button to get all stations, a button to show stations popular in the city, a list of nearby cities/places, and more
-    return (await new PlacesApi().araContentPagePlaceIdChannelsGet(place.id!)).data?.data;
+    return (await new PlacesApi().araContentPagePlaceIdChannelsGet(placeId)).data?.data;
 } 
 
 // returns a list of both stations and channels that match the search query
@@ -68,7 +68,7 @@ export async function getSomeStream(/*channelId:string*/):Promise<string|undefin
 
     var place = placeList![Math.floor(Math.random() * placeList!?.length)];
 
-    var placeContentInnerList = await (await getSpecificPlace(place)).content;
+    var placeContentInnerList = await (await getSpecificPlace(place.id)).content;
 
     // log to server console's output
     // console.log("placeContentInner", JSON.stringify(placeContentInnerList));

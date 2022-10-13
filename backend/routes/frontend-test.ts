@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 import {readFileSync} from 'fs';
-import {getAllPlacesInRG, searchPlacesAndChannels, getSomeStream} from "../public/javascripts/radio-garden-api/radio-garden-express"
 
 router.get('/', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
   res.json({
     title: 'Radio garden api test',
-    savedStreamURL: 'https://royaltonradio.streamguys1.com/live?listening-from-radio-garden=1665352600',
+    streamURL: 'https://royaltonradio.streamguys1.com/live?listening-from-radio-garden=1665352600',
     // placeData: await getAllPlacesInRG(),
     // searchData: await searchPlacesAndChannels("ondas"),
     // someStreamURL: await getSomeStream()
@@ -50,6 +49,19 @@ router.get('/place-channels', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
   res.json({
     "place-channels": placeChannelsData
+  });
+});
+
+// return a sample response for a search query
+
+var searchQueryJSON = readFileSync('./search-query.json',
+{encoding:'utf8', flag:'r'});
+var searchQueryData = JSON.parse(searchQueryJSON);
+
+router.get('/search', async (req, res, next) => {
+  console.log("fetching data --- frontend express test");
+  res.json({
+    "search": searchQueryData
   });
 });
 

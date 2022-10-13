@@ -26,3 +26,4 @@ dist-ssr
 radio-map
 radio-map.pub
 .env
+env.js

@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var radioRouter = require('./routes/radio');
 var frontendTestRouter = require('./routes/frontend-test');
+var radioGardenRealRouter = require('./routes/radio-garden-direct');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/radio', radioRouter);
 app.use('/api/express', frontendTestRouter);
+app.use('/api/radio-direct', radioGardenRealRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
