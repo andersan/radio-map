@@ -72,9 +72,26 @@ module.exports = (_env, args) => ({
     new HtmlPlugin({
       template: "index.html"
     }),
+    // new HtmlPlugin({
+    //   filename: 'test.html',
+    //   template: "test.html"
+    // }),
+    // new HtmlPlugin({
+    //   filename: './express-test.html',
+    //   inject: true,
+    //   template: "express-test.html",
+    //   chunks: ['express-test', "/src/express-basic-test/express-test.tsx"]
+    // }),
+    // new HtmlPlugin({
+    //   filename: 'radio.html',
+    //   template: "radio.html"
+    // }),
+    // new HtmlPlugin({
+    //   filename: 'radio-garden.html',
+    //   template: "radio-garden.html"
+    // }),
     ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
   ],
-  // newly added, not in resium example
   // resolve: {
   //     fallback: {
   //     "url": false,
