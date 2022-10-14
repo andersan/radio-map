@@ -1,0 +1,10 @@
+{
+  "type": "channel",
+  "title": "KVRX-FM 91.7",
+  "id": "QjVl7rHj",
+  "url": "/listen/kvrx-fm-91-7/QjVl7rHj",
+  "website": "https://www.kvrx.org",
+  "secure": true,
+  "place": { "id": "Aq7xeIiB", "title": "Austin TX" },
+  "country": { "id": "GhDXw4EW", "title": "United States" }
+}

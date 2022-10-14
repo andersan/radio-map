@@ -1,4 +1,4 @@
-import {Place, SearchApi, PlacesApi, SearchResult, ChannelsApi, PlaceContentContentInner, AraContentPagePlaceIdGet200ResponseAllOfData, SelectedStations, ChannelRef, LocalPickStations, LocalPopularStations, AraContentPagePlaceIdChannelsGet200Response, AraContentPagePlaceIdChannelsGet200ResponseAllOfData} from "./api"
+import {Place, SearchApi, PlacesApi, SearchResult, ChannelsApi, PlaceContentContentInner, AraContentPagePlaceIdGet200ResponseAllOfData, SelectedStations, ChannelRef, LocalPickStations, LocalPopularStations, AraContentPagePlaceIdChannelsGet200Response, AraContentPagePlaceIdChannelsGet200ResponseAllOfData, AraContentChannelChannelIdGet200Response, Channel} from "./api"
 import AxiosResponse from "axios"
 import axios from "axios";
 import { inspect } from 'util'
@@ -45,6 +45,10 @@ export async function searchPlacesAndChannels(query:string):Promise<SearchResult
     // the below call returns a stream but doesn't disconnect the call (never pauses the stream). Need to get a URL to route to front-end and not sure how to disconnect the stream. 
     // return (await new ChannelsApi().araContentListenChannelIdChannelMp3Get(channelId));
 // }
+
+export async function getChannelInfo(channelID:string):Promise<Channel|undefined> {
+    return (await new ChannelsApi().araContentChannelChannelIdGet(channelID)).data.data;
+}
 
 export async function customGetStreamUrl(channelId:string):Promise<string|undefined> {
     var url = "http://radio.garden/api/ara/content/listen/" + channelId + "/channel.mp3?_=1614040000000";

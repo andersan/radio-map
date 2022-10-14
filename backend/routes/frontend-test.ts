@@ -39,6 +39,18 @@ router.get('/place-info', async (req, res, next) => {
   });
 });
 
+// return a sample response for a channel's info
+
+var channelInfoJSON = readFileSync('./channel-info.json',
+  {encoding:'utf8', flag:'r'});
+var channelInfoData = JSON.parse(channelInfoJSON);
+// console.log("channelInfoData: " + channelInfoJSON);
+
+router.get('/channel-info', async (req, res, next) => {
+  console.log("fetching data --- frontend express test channel-info");
+  res.json(channelInfoData);
+});
+
 // return a sample response for a place's channels
 
 var placeChannelsJSON = readFileSync('./place-channels.json',

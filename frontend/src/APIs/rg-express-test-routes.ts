@@ -42,6 +42,14 @@ export async function fetchSinglePlaceChannels(placeID:string) {
     });
 }
 
+export async function fetchSingleChannelInfo(channelID:string) {
+    console.log("fetching data --- fetchSingleChannelInfo");
+    return fetch(baseURL + '/api/express/channel-info').then((res) => {
+        console.log("res.json() --- fetched single channel info");
+        return res.json()
+    });
+}
+
 export async function fetchStreamURL(channelId:string) {
     console.log("fetching data --- fetchSinglePlaceChannels");
     return fetch(baseURL + '/api/express').then((res) => {

@@ -3,9 +3,9 @@ import React from 'react'
 import { Channel, Place } from '../APIs/radio-garden-api';
 import "./radio-menu.css"
 import {/*fetchSearch, /*fetchSinglePlaceChannels,
-fetchSinglePlaceInfo, fetchStreamURL*/} from '../APIs/rg-express-routes-real'
+fetchSinglePlaceInfo, fetchStreamURL*/ fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
 import {fetchSearch, fetchSinglePlaceChannels,
-    fetchSinglePlaceInfo, fetchStreamURL} from '../APIs/rg-express-test-routes'
+    fetchSinglePlaceInfo, fetchStreamURL, /*fetchSingleChannelInfo*/} from '../APIs/rg-express-test-routes'
 import RadioMenuList from './RadioMenuList';
 import NowPlayingDisplay from './NowPlayingDisplay';
 
@@ -27,6 +27,7 @@ class RadioMenu extends React.Component {
         super(props);
   
         this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+        this.selectItem = this.selectItem.bind(this);
     }
 
     componentDidMount(): void {
@@ -55,12 +56,25 @@ class RadioMenu extends React.Component {
         }
     }
 
-    selectPlace(place:Place) {
-        this.setState({selectedPlace: place});
-    }
+    // async selectPlace(placeId:string) {
+    //     // todo get place info
+    //     var place = await this.fetchSinglePlaceInfo
+    //     this.setState({selectedPlace: placeId});
+    // }
 
-    selectChannel(channel:Channel) {
-        this.setState({selectedChannel: channel});
+    async selectChannel(channelId:string) {
+        console.log("selectChannel 1");
+        // todo get channel info
+        this.fetchChannelInfo(channelId).then((channel) => {
+            console.log("selectChannel 2");
+            console.log(channel);
+            this.setState({selectedChannel: channel});
+    
+            // todo select place of this channel, if not already selected?
+            this.fetchPlaceInfo(channel.place.id);
+    
+            this.fetchStreamURLLink(channel.id);
+        });
     }
 
     openRadioMenu() {
@@ -102,6 +116,12 @@ class RadioMenu extends React.Component {
         console.log("fetchStreamURLLink: " + JSON.stringify(streamCallResponse));
     }
 
+    async fetchChannelInfo(channelId:string) {
+        var channelInfo = await fetchSingleChannelInfo(channelId);
+        console.log("fetchChannelInfo" + JSON.stringify(channelInfo));
+        return channelInfo;
+    }
+
     async runSearch(query:string) {
         var searchResults = await fetchSearch(query);
         this.setState({searchResults: searchResults});
@@ -121,6 +141,21 @@ class RadioMenu extends React.Component {
     //     this.selectedStation = station;
     // }
 
+    // item will have a structure like the following:
+    /*
+    channel: {"map":"ILSa1N2P","href":"/listen/wordpress/ILSa1N2P","title":"Majic 104.3 - WMJU","subtitle":"Buda TX"} or {"href":"/listen/kmfa/g72kAOBD","title":"KMFA FM 89.5"}
+    place: {"page":{"map":"C63FqHXQ","url":"/visit/georgetown-tx/C63FqHXQ","type":"page","count":2,"title":"Georgetown TX","subtitle":"United States"},"title":"Georgetown TX","rightDetail":"41 km"} or {"page":{"map":"LbmJqSyY","url":"/visit/san-francisco-ca/LbmJqSyY","type":"page","count":102,"title":"San Francisco CA","subtitle":"United States"},"title":"San Francisco CA","leftAccessory":"count","leftAccessoryCount":102}
+
+    TODO: check what data types actually correspond to this "place" and "channel"
+    */
+    selectItem(item:any) {
+        console.log("selectItem " + JSON.stringify(item));
+        if (item.page)
+            this.fetchPlaceInfo(item.page.url.split("/").pop());
+        else
+            this.selectChannel(item.href.split("/").pop());
+    }
+
     render() {
         return (
         <div className="menu-container">
@@ -134,8 +169,10 @@ class RadioMenu extends React.Component {
                         </p>
                         {
                             this.state.selectedPlace ? (
-                                <RadioMenuList listItems={this.state.selectedPlace.content}></RadioMenuList>
-                                // <div></div>
+                                <RadioMenuList
+                                listItems={this.state.selectedPlace.content}
+                                selectItem={this.selectItem}>
+                                </RadioMenuList>
                             ) : (<div></div>)
                         }
                         {/* <p id="place-general-info">

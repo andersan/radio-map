@@ -21,6 +21,18 @@ export async function fetchSinglePlaceChannels(placeId:string) {
     });
 }
 
+
+
+export async function fetchSingleChannelInfo(channelId:string) {
+    console.log("fetching data --- fetchSingleChannelInfo");
+    return fetch(baseURL + '/api/radio-direct/channel-info?' + new URLSearchParams({
+        channelId: channelId,
+    })).then((res) => {
+        console.log("res.json() --- fetched single channel info");
+        return res.json()
+    });
+}
+
 export async function fetchStreamURL(channelId:string) {
     console.log("fetching data --- fetchStreamURL");
     return fetch(baseURL + '/api/radio-direct/stream?' + new URLSearchParams({

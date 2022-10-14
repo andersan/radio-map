@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-import {getAllPlacesInRG, searchPlacesAndChannels, customGetStreamUrl, getSpecificPlace, getAllChannelsInSpecificPlace } from "../public/javascripts/radio-garden-api/radio-garden-express"
+import {getAllPlacesInRG, searchPlacesAndChannels, customGetStreamUrl, getSpecificPlace, getAllChannelsInSpecificPlace, getChannelInfo } from "../public/javascripts/radio-garden-api/radio-garden-express"
 import {inspect} from "util";
 
 
@@ -32,6 +32,17 @@ router.get('/place-info', async (req, res, next) => {
   res.json({
     place: result
   });
+});
+
+/* GET a place's data */
+router.get('/channel-info', async (req, res, next) => {
+  console.log("getSpecificChannel");
+  var result = await getChannelInfo(req.query.channelId);
+
+  if (logResults)
+    console.log(inspect(result, true, 5));
+
+  res.json(result);
 });
 
 /* GET a place's channels */

@@ -18,12 +18,19 @@ import RadioMenuListRow from './RadioMenuListRow';
 class RadioMenuList extends React.Component {
     state = {
         listItems: [],
+        selectItem: null,
     }
 
     constructor(props:any) {
         super(props);
         this.state = {
             listItems: [],
+            selectItem: null,
+        }
+        if (props.selectItem) {
+            console.log("selectItem updated");
+            this.state.selectItem = props.selectItem;
+            console.log(props.selectItem);
         }
         this.renderRow = this.renderRow.bind(this);
         this.getItemSize = this.getItemSize.bind(this);
@@ -39,12 +46,21 @@ class RadioMenuList extends React.Component {
         console.log(prevProps.listItems);
         console.log(this.props.listItems);
 
-        if (prevProps.listItems !== this.props.listItems) {
+        if (prevProps.listItems !== this.props.listItems && 
+            this.props.listItems &&
+            this.props.listItems !== undefined &&
+            Array.isArray(this.props.listItems)) {
             console.log("listItems updated");
             // this.setState({ listItems: this.props.listItems});
             this.setState({ listItems: this.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1)});
             // this.setState({ listItems: [{title: "hello"}, {title: "hello2"}]});
             console.log(this.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1))
+        }
+
+        if (prevProps.selectItem !== this.props.selectItem) {
+            console.log("selectItem updated");
+            this.setState({ selectItem: this.props.selectItem});
+            console.log(this.props.selectItem);
         }
     }
 
@@ -58,6 +74,7 @@ class RadioMenuList extends React.Component {
                 <ListItem style={style} key={index} component="div" 
                 disablePadding
                 className={this.state.listItems[index].subtitle ? 'row-with-subtitle' : 'single-line-row'}
+                onClick={() => this.state.selectItem(this.state.listItems[index])}
                 >
                 <ListItemButton>
                     <ListItemText 
