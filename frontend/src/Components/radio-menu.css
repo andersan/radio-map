@@ -37,6 +37,20 @@
   top: 25vh;
 }
 
+#place-info-list {
+  color: #333333;
+  font-weight: bold;
+}
+
+.row-with-subtitle {
+  /* height: 70px; */
+}
+
+.single-line-row {
+  /* height: 45px !important; */
+  /* top: 45px !important; */
+}
+
 @media (prefers-color-scheme: light) {
   /* :root {
     color: #213547;

@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
-import { FixedSizeList } from 'react-window';
+import { VariableSizeList } from 'react-window';
 
 import RadioMenuListRow from './RadioMenuListRow';
 
@@ -26,6 +26,7 @@ class RadioMenuList extends React.Component {
             listItems: [],
         }
         this.renderRow = this.renderRow.bind(this);
+        this.getItemSize = this.getItemSize.bind(this);
     }
 
     componentDidMount(): void {
@@ -37,7 +38,6 @@ class RadioMenuList extends React.Component {
         console.log("componentDidUpdate RadioMenuList");
         console.log(prevProps.listItems);
         console.log(this.props.listItems);
-
 
         if (prevProps.listItems !== this.props.listItems) {
             console.log("listItems updated");
@@ -51,30 +51,33 @@ class RadioMenuList extends React.Component {
     renderRow({ index, style }) {
         console.log("renderRow");
         console.log(this.state.listItems);
+        // console.log({index, style});
+        // console.log(this.state.listItems && this.state.listItems.length > 0) 
         if (this.state.listItems && this.state.listItems.length > 0) 
-            return () => (
-                <ListItem style={style} key={index} component="div" disablePadding>
+            return (
+                <ListItem style={style} key={index} component="div" 
+                disablePadding
+                className={this.state.listItems[index].subtitle ? 'row-with-subtitle' : 'single-line-row'}
+                >
                 <ListItemButton>
-                    <ListItemText primary={this.state.listItems[index].title}/>
-                    {/* <ListItemText primary={"hello"}/> */}
+                    <ListItemText 
+                    primary={this.state.listItems[index].title}
+                    secondary={this.state.listItems[index].subtitle}
+                    />
                 </ListItemButton>
                 </ListItem>);
-        else return () => <div></div>;
+        else return <div id="empty-rows"></div>;
     }
 
-    // renderRow(input:string) {
-    //     let index = 0;
-    //     console.log("renderRow");
-    //     console.log(input);
-    //     console.log(typeof input);
-    //     return () => (
-    //         <ListItem key={index} component="div" disablePadding>
-    //         <ListItemButton>
-    //             {/* <ListItemText primary={listItems[index + 1].title}/> */}
-    //             <ListItemText primary={input}/>
-    //         </ListItemButton>
-    //         </ListItem>);
-    // }
+    getItemSize = index => {
+        if (this.state.listItems && this.state.listItems.length > 0) 
+            if (this.state.listItems[index].subtitle)
+                return 72;
+            else
+                return 48; 
+        else
+            return 0;
+    }
 
     render() {
         return (
@@ -83,17 +86,17 @@ class RadioMenuList extends React.Component {
             id="place-info-list"
             sx={{ width: '100%', height: 400, maxWidth: 360, bgcolor: 'background.paper' }}
           >
-            <FixedSizeList
+            <VariableSizeList
                 height={400}
                 width={"100%"}
-                itemSize={46}
+                itemSize={this.getItemSize}
                 itemCount={this.state.listItems.length}
                 // itemCount={10}
                 overscanCount={5}
                 overflow="hidden"
             >
                 {this.renderRow}
-            </FixedSizeList>
+            </VariableSizeList>
           </Box>) : <div></div>
         //   () => <div></div>
             // <div></div>
