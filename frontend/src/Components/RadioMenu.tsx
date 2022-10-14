@@ -1,19 +1,20 @@
 import React from 'react'
+import { Typography } from '@mui/material'
+
 // import { RadioStation } from './api';
 import { Channel, Place } from '../APIs/radio-garden-api';
 import "./radio-menu.css"
-import {/*fetchSearch, /*fetchSinglePlaceChannels,
-fetchSinglePlaceInfo, fetchStreamURL*/ fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
-import {fetchSearch, fetchSinglePlaceChannels,
-    fetchSinglePlaceInfo, fetchStreamURL, /*fetchSingleChannelInfo*/} from '../APIs/rg-express-test-routes'
+// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
+import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-test-routes'
+
 import RadioMenuList from './RadioMenuList';
 import NowPlayingDisplay from './NowPlayingDisplay';
 
 class RadioMenu extends React.Component {
     // radio garden api
     state = {
-        selectedPlace: null,
-        selectedChannel: null,
+        selectedPlace: this.props.selectedPlace,
+        selectedChannel: this.props.selectedChannel,
         streamURL: null,
         isPlaying: false,
         playMusicFunc: null,
@@ -42,15 +43,16 @@ class RadioMenu extends React.Component {
         console.log(prevProps.selectedChannel);
         console.log(this.props.selectedChannel);
 
-        if (prevProps.selectedPlace !== this.props.selectedPlace) {
+        if (prevProps.selectedPlace !== this.props.selectedPlace && this.props.selectedPlace) {
             console.log("selectedPlace updated");
+            this.openRadioMenu();
             this.setState({ selectedPlace: this.props.selectedPlace });
             this.fetchPlaceChannels(this.props.selectedPlace.map);
-            this.openRadioMenu();
         }
 
-        if (prevProps.selectedChannel !== this.props.selectedChannel) {
+        if (prevProps.selectedChannel !== this.props.selectedChannel && this.props.selectedChannel) {
             console.log("selectedChannel updated");
+            // this.playingRadioMenu();
             this.setState({ selectedChannel: this.props.selectedChannel });
             this.fetchStreamURLLink(this.props.selectedChannel.href.split('/').pop());
         }
@@ -160,13 +162,12 @@ class RadioMenu extends React.Component {
         return (
         <div className="menu-container">
             <div id="radio-menu" className="radio-menu-closed">
-                <h1>Radio Menu</h1>
-                {/* <p style={{color: "blue", zIndex: 1000000000}}>Selected Place: {JSON.stringify(this.props.selectedPlace)}</p> */}
+                {/* <h1>Radio Menu</h1> */}
+                <Typography id="radio-menu-title" variant="h4" component="h4">
+                    { this.state.selectedPlace ? this.state.selectedPlace.title : "Radio Menu"}
+                </Typography>
                 {this.state.selectedPlace ? (
                     <div>
-                        <p>
-                            Selected Place: {this.state.selectedPlace.title}
-                        </p>
                         {
                             this.state.selectedPlace ? (
                                 <RadioMenuList
@@ -175,22 +176,16 @@ class RadioMenu extends React.Component {
                                 </RadioMenuList>
                             ) : (<div></div>)
                         }
-                        {/* <p id="place-general-info">
-                            Place general info: {JSON.stringify(this.state.selectedPlace)}
-                        </p>
-                        <p id="place-channels-info">
-                            Place channels: {JSON.stringify(this.state.selectedPlace.map)}
-                        </p> */}
                     </div>
                 ) : (
-                    <p>Selected Place: None</p>
+                    <span></span>//<p>Selected Place: None</p>
                 )}
                 {/* <p>Selected Channel: {JSON.stringify(this.props.selectedChannel)}</p> */}
-                {this.state.selectedChannel ? (
+                {/* {this.state.selectedChannel ? (
                     <p id="selected-channel-info">Selected Channel: {this.state.selectedChannel.title}</p>
                 ) : (
                     <p>Selected Channel: None</p>
-                )}
+                )} */}
                 {/* {this.state.selectedChannel ? (
                     <RadioPlayerEmbed 
                         selectedChannel={this.state.selectedChannel}

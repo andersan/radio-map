@@ -1,6 +1,7 @@
 import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
 import { Cartesian3, Color, Ion } from "cesium";
 import {fetchAllPlacesJSONData, fetchSinglePlaceChannels, fetchSinglePlaceInfo} from '../APIs/rg-express-test-routes'
+// import {fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
 import {Place} from '../APIs/radio-garden-api/api'
 import env from "../env.js"
 import React from 'react'
@@ -98,17 +99,19 @@ class CesiumViewer extends React.Component {
 
                   onClick={async () => {
                     console.log("clicked on place " + place.url.split("/")[2]);
-                    var placeInfo = await fetchSinglePlaceInfo(place.url.split("/")[2]);
+                    console.log("place " + place.url.split("/").pop());
+                    var placeInfo = await fetchSinglePlaceInfo(place.url.split("/").pop());
                     console.log(placeInfo);
-                    placeInfo = placeInfo["place-info"].data;
+                    // placeInfo = placeInfo.place;
                     this.props.setSelectedPlace(placeInfo);
                   }}
 
                   onMiddleClick={async () => {
                     console.log("middle clicked on place " + place.url.split("/")[2]);
-                    var channelInfo = await fetchSinglePlaceChannels(place.url.split("/")[2]);
+                    var channelInfo = await fetchSinglePlaceChannels(place.url.split("/").pop());
                     console.log(channelInfo);
-                    channelInfo = channelInfo["place-channels"].data.content[0].items[Math.floor(Math.random() * channelInfo["place-channels"].data.content[0].items.length)];
+                    channelInfo = channelInfo.data;
+                    channelInfo = channelInfo.content[0].items[Math.floor(Math.random() * channelInfo.content[0].items.length)];
                     console.log(channelInfo);
                     console.log("set selected staton.");
                     this.props.setSelectedChannel(channelInfo);

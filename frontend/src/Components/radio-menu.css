@@ -16,8 +16,8 @@
 
 #radio-menu {
   width: 100%;
-  background-color: purple;
-  color: lightgreen;
+  background-color: white;
+  color: #222;
   padding: 10px;
   position: absolute;
 }
@@ -49,6 +49,15 @@
 .single-line-row {
   /* height: 45px !important; */
   /* top: 45px !important; */
+}
+
+#radio-menu-title {
+  margin-bottom: 10px;
+}
+
+#search-box {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @media (prefers-color-scheme: light) {

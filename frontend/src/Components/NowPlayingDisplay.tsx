@@ -28,6 +28,12 @@ export default class NowPlayingDisplay extends React.Component {
 
   constructor(props:any) {
     super(props);
+    this.state  = {
+      isPlaying: false,
+      selectedPlace: props.selectedPlace,
+      selectedChannel: props.selectedChannel,
+      streamURL: props.streamURL,
+    }
     this.player = new howlerPlayer();
   }
 

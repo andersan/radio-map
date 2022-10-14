@@ -29,9 +29,7 @@ router.get('/place-info', async (req, res, next) => {
   if (logResults)
     console.log(inspect(result, true, 5));
 
-  res.json({
-    place: result
-  });
+  res.json(result);
 });
 
 /* GET a place's data */
@@ -53,9 +51,7 @@ router.get('/place-channels', async (req, res, next) => {
   if (logResults)
     console.log(inspect(result, true, 5));
 
-  res.json({
-    place: result
-  });
+  res.json(result);
 });
 
 /* SEARCH for places and channels */
@@ -66,9 +62,7 @@ router.get('/search', async (req, res, next) => {
   if (logResults)
     console.log(inspect(result, true, 5));
 
-  res.json({
-    search: result
-  });
+  res.json(result);
 });
 
 //api/radio-direct

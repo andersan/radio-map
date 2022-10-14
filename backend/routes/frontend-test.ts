@@ -21,9 +21,7 @@ var allPlacesData = JSON.parse(placeJSON);
 
 router.get('/json', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
-  res.json({
-    "place-data": allPlacesData
-  });
+  res.json(allPlacesData);
 });
 
 // return a sample response for a place's info
@@ -34,9 +32,7 @@ var placeInfoData = JSON.parse(placeInfoJSON);
 
 router.get('/place-info', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
-  res.json({
-    "place-info": placeInfoData
-  });
+  res.json(placeInfoData.data);
 });
 
 // return a sample response for a channel's info
@@ -59,9 +55,7 @@ var placeChannelsData = JSON.parse(placeChannelsJSON);
 
 router.get('/place-channels', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
-  res.json({
-    "place-channels": placeChannelsData
-  });
+  res.json(placeChannelsData);
 });
 
 // return a sample response for a search query
@@ -72,9 +66,7 @@ var searchQueryData = JSON.parse(searchQueryJSON);
 
 router.get('/search', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
-  res.json({
-    "search": searchQueryData
-  });
+  res.json(searchQueryData);
 });
 
 module.exports = router;
