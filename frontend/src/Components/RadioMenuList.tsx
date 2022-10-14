@@ -134,16 +134,16 @@ class RadioMenuList extends React.Component {
 
           <Box
             id="place-info-list"
-            sx={{ width: '100%', height: 400, maxWidth: 360, bgcolor: 'background.paper' }}
+            sx={{ width: '100%', height: 600, maxWidth: 360, bgcolor: 'background.paper' }}
           >
             <Scrollbars
                 autoHeight={true}
-                autoHeightMax={400}
+                autoHeightMax={600}
                 onScroll={this.handleScroll}
             >
                 <VariableSizeList
-                    height={400}
-                    width={"100%"}
+                    height={600}
+                    width={'100%'}
                     itemSize={this.getItemSize}
                     itemCount={this.state.listItems.length}
                     // itemCount={10}

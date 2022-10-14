@@ -1,5 +1,11 @@
 import React from 'react'
-import { Typography } from '@mui/material'
+import Typography from '@mui/material/Typography';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 // import { RadioStation } from './api';
 import { Channel, Place } from '../APIs/radio-garden-api';
@@ -9,6 +15,7 @@ import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStream
 
 import RadioMenuList from './RadioMenuList';
 import NowPlayingDisplay from './NowPlayingDisplay';
+import NowPlayingDisplayMinimal from './NowPlayingDisplayMinimal';
 
 class RadioMenu extends React.Component {
     // radio garden api
@@ -163,9 +170,22 @@ class RadioMenu extends React.Component {
         <div className="menu-container">
             <div id="radio-menu" className="radio-menu-closed">
                 {/* <h1>Radio Menu</h1> */}
-                <Typography id="radio-menu-title" variant="h4" component="h4">
-                    { this.state.selectedPlace ? this.state.selectedPlace.title : "Radio Menu"}
-                </Typography>
+                <Grid container sx={{ display: "flex", flexDirection: "row"}}>"
+                    <Card sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', maxWidth: '90%'}}>
+                            <CardContent sx={{ flex: '1 0 auto', maxWidth: '90%' }}>
+                                <Typography id="radio-menu-title" variant="h4" component="h4">
+                                    { this.state.selectedPlace ? this.state.selectedPlace.title : "Radio Menu"}
+                                </Typography>
+                            </CardContent>
+                        </Box>
+                        <Box className='radio-menu-icon-button' sx={{pl: 1, pb: 1  }}>
+                            <IconButton aria-label="close" sx={{alignContent: 'flex-end'}} onClick={}>
+                            <ExpandMoreRoundedIcon sx={{ height: 38, width: 38 }}></ExpandMoreRoundedIcon>
+                            </IconButton>
+                        </Box>
+                    </Card>
+                </Grid>
                 {this.state.selectedPlace ? (
                     <div>
                         {
@@ -193,14 +213,15 @@ class RadioMenu extends React.Component {
                         channelStreamURL={this.state.streamURL}
                     />
                 ) : (<div style={{"display":"none"}}></div>)} */}
-                <div id="search-box">
+                {/* <div id="search-box">
                     <form onSubmit={this.handleSearchSubmit}>
                         <input type="text" id="search-input" placeholder="Search for a radio station"/>
                         <button type="submit">Search</button>
                     </form>
-                </div>
+                </div> */}
                 {this.state.selectedChannel ? 
-                    <NowPlayingDisplay
+                    // <NowPlayingDisplay
+                    <NowPlayingDisplayMinimal
                     selectedChannel={this.state.selectedChannel} 
                     selectedPlace={this.state.selectedPlace} 
                     streamURL={this.state.streamURL}/>
