@@ -170,7 +170,7 @@ class RadioMenu extends React.Component {
         <div className="menu-container">
             <div id="radio-menu" className="radio-menu-closed">
                 {/* <h1>Radio Menu</h1> */}
-                <Grid container sx={{ display: "flex", flexDirection: "row"}}>"
+                <Grid container sx={{ display: "flex", flexDirection: "row" }}>
                     <Card sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', maxWidth: '90%'}}>
                             <CardContent sx={{ flex: '1 0 auto', maxWidth: '90%' }}>
@@ -179,11 +179,14 @@ class RadioMenu extends React.Component {
                                 </Typography>
                             </CardContent>
                         </Box>
-                        <Box className='radio-menu-icon-button' sx={{pl: 1, pb: 1  }}>
-                            <IconButton aria-label="close" sx={{alignContent: 'flex-end'}} onClick={}>
+
+                        {(this.state.isPlaying || this.state.selectedPlace || this.state.selectedChannel) ? <Box className='radio-menu-icon-button' sx={{pl: 1, pb: 1, }} >
+                            <IconButton aria-label="close" sx={{alignContent: 'flex-end'}} onClick={this.state.isPlaying ? this.playingRadioMenu : this.closeRadioMenu}>
                             <ExpandMoreRoundedIcon sx={{ height: 38, width: 38 }}></ExpandMoreRoundedIcon>
                             </IconButton>
                         </Box>
+                        : <div></div>
+                        }
                     </Card>
                 </Grid>
                 {this.state.selectedPlace ? (
