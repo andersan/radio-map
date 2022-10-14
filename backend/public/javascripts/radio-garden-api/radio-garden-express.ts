@@ -52,10 +52,18 @@ export async function getChannelInfo(channelID:string):Promise<Channel|undefined
 
 export async function customGetStreamUrl(channelId:string):Promise<string|undefined> {
     var url = "http://radio.garden/api/ara/content/listen/" + channelId + "/channel.mp3?_=1614040000000";
-    var stream = (await axios.head(url, {headers: {"User-Agent": "curl/7.68.0", "Host": "radio.garden", "Accept": "*/*"}, transformRequest: function(data, headers) {
-        delete headers.common;
-        return data;
-    }}, ));
+    var stream;
+    try {
+        stream = (await axios.head(url, {headers: {"Accept": "*/*"}, transformRequest: function(data, headers) {
+            delete headers.common;
+            return data;
+        }}, ));
+    } catch (err) {
+        console.error("Error in customGetStreamUrl");
+        console.log(err);
+        console.log(Object.keys(err));
+        return inspect(err, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)![0];
+    }
     // setTimeout(() => { 
     //     console.log("stream keys: " + Object.keys(stream));
     //     // console.log("stream headers: " + JSON.stringify(stream.headers));
