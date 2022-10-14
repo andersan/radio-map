@@ -30,6 +30,7 @@ class RadioPlayerEmbed extends React.Component {
 
     componentDidUpdate(prevProps) {
         console.log("componentDidUpdate radio player embed");
+        console.log(this.props.channelStreamURL);
         // console.log(prevProps.channelStreamURL);
         // console.log(this.props.channelStreamURL);
 

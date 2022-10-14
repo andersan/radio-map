@@ -1,8 +1,8 @@
 import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
-import { Cartesian3, Color, buildModuleUrl, TileMapServiceImageryProvider, ArcGisMapServerImageryProvider, Ion } from "cesium";
-import {fetchData, fetchAllPlacesJSONData, fetchSinglePlaceChannels, fetchSinglePlaceInfo} from './rg-express-test-routes'
-import {Place} from './radio-garden-api/api'
-import env from "./env.js"
+import { Cartesian3, Color, Ion } from "cesium";
+import {fetchAllPlacesJSONData, fetchSinglePlaceChannels, fetchSinglePlaceInfo} from '../APIs/rg-express-test-routes'
+import {Place} from '../APIs/radio-garden-api/api'
+import env from "../env.js"
 import React from 'react'
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
