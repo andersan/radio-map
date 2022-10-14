@@ -24,6 +24,7 @@ class RadioMenu extends React.Component {
         selectedChannel: this.props.selectedChannel,
         streamURL: null,
         isPlaying: false,
+        isClosed: false,
         playMusicFunc: null,
         pauseMusicFunc: null,
     }
@@ -91,20 +92,25 @@ class RadioMenu extends React.Component {
         document.getElementById("radio-menu")?.classList.remove("radio-menu-closed");
         document.getElementById("radio-menu")?.classList.remove("radio-menu-playing");
         document.getElementById("radio-menu")?.classList.add("radio-menu-open");
+        this.setState({isClosed: false});
     }
 
     playingRadioMenu() {
+        console.log("playing radio menu");
         document.getElementById("radio-menu")?.classList.remove("radio-menu-closed");
         document.getElementById("radio-menu")?.classList.remove("radio-menu-open");
         document.getElementById("radio-menu")?.classList.add("radio-menu-playing");
+        this.setState({isClosed: false});
     }
 
     closeRadioMenu() {
+        console.log("close radio menu");
         document.getElementById("radio-menu")?.classList.remove("radio-menu-open");
         if (this.state.isPlaying)
             document.getElementById("radio-menu")?.classList.add("radio-menu-playing");
         else
             document.getElementById("radio-menu")?.classList.add("radio-menu-closed");
+        this.setState({isClosed: true});
     }
 
     async fetchPlaceChannels(placeId:string) {
@@ -169,40 +175,45 @@ class RadioMenu extends React.Component {
         return (
         <div className="menu-container">
             <div id="radio-menu" className="radio-menu-closed">
-                {/* <h1>Radio Menu</h1> */}
-                <Grid container sx={{ display: "flex", flexDirection: "row" }}>
-                    <Card sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', maxWidth: '90%'}}>
-                            <CardContent sx={{ flex: '1 0 auto', maxWidth: '90%' }}>
-                                <Typography id="radio-menu-title" variant="h4" component="h4">
-                                    { this.state.selectedPlace ? this.state.selectedPlace.title : "Radio Menu"}
-                                </Typography>
-                            </CardContent>
-                        </Box>
+            {  !this.state.isClosed ? (
+                <div>
+                    {/* <h1>Radio Menu</h1> */}
+                    <Grid container sx={{ display: "flex", flexDirection: "row" }}>
+                        <Card sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', maxWidth: '90%'}}>
+                                <CardContent sx={{ flex: '1 0 auto', maxWidth: '90%' }}>
+                                    <Typography id="radio-menu-title" variant="h4" component="h4">
+                                        { this.state.selectedPlace ? this.state.selectedPlace.title : "Radio Menu"}
+                                    </Typography>
+                                </CardContent>
+                            </Box>
 
-                        {(this.state.isPlaying || this.state.selectedPlace || this.state.selectedChannel) ? <Box className='radio-menu-icon-button' sx={{pl: 1, pb: 1, }} >
-                            <IconButton aria-label="close" sx={{alignContent: 'flex-end'}} onClick={this.state.isPlaying ? this.playingRadioMenu : this.closeRadioMenu}>
-                            <ExpandMoreRoundedIcon sx={{ height: 38, width: 38 }}></ExpandMoreRoundedIcon>
-                            </IconButton>
-                        </Box>
-                        : <div></div>
-                        }
-                    </Card>
-                </Grid>
-                {this.state.selectedPlace ? (
-                    <div>
-                        {
-                            this.state.selectedPlace ? (
-                                <RadioMenuList
-                                listItems={this.state.selectedPlace.content}
-                                selectItem={this.selectItem}>
-                                </RadioMenuList>
-                            ) : (<div></div>)
-                        }
-                    </div>
-                ) : (
-                    <span></span>//<p>Selected Place: None</p>
-                )}
+                            {(this.state.isPlaying || this.state.selectedPlace || this.state.selectedChannel) ? <Box className='radio-menu-icon-button' sx={{pl: 1, pb: 1, }} >
+                                <IconButton aria-label="close" sx={{alignContent: 'flex-end'}} onClick={() => {this.state.isPlaying ? this.playingRadioMenu() : this.closeRadioMenu()}}>
+                                <ExpandMoreRoundedIcon sx={{ height: 38, width: 38 }}></ExpandMoreRoundedIcon>
+                                </IconButton>
+                            </Box>
+                            : <div></div>
+                            }
+                        </Card>
+                    </Grid>
+                    {this.state.selectedPlace ? (
+                        <div>
+                            {
+                                this.state.selectedPlace ? (
+                                    <RadioMenuList
+                                    listItems={this.state.selectedPlace.content}
+                                    selectItem={this.selectItem}>
+                                    </RadioMenuList>
+                                ) : (<div></div>)
+                            }
+                        </div>
+                    ) : (
+                        <span></span>//<p>Selected Place: None</p>
+                    )}
+                </div>)
+                : (<span>{/* hide header and list if list is closed */}</span>)
+            }
                 {/* <p>Selected Channel: {JSON.stringify(this.props.selectedChannel)}</p> */}
                 {/* {this.state.selectedChannel ? (
                     <p id="selected-channel-info">Selected Channel: {this.state.selectedChannel.title}</p>
