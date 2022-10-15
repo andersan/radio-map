@@ -10,8 +10,8 @@ import CardContent from '@mui/material/CardContent';
 // import { RadioStation } from './api';
 import { Channel, Place } from '../APIs/radio-garden-api';
 import "./radio-menu.css"
-// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
-import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-test-routes'
+import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
+// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-test-routes'
 
 import RadioMenuList from './RadioMenuList';
 import NowPlayingDisplay from './NowPlayingDisplay';
@@ -66,12 +66,6 @@ class RadioMenu extends React.Component {
         }
     }
 
-    // async selectPlace(placeId:string) {
-    //     // todo get place info
-    //     var place = await this.fetchSinglePlaceInfo
-    //     this.setState({selectedPlace: placeId});
-    // }
-
     async selectChannel(channelId:string) {
         console.log("selectChannel 1");
         // todo get channel info
@@ -81,7 +75,7 @@ class RadioMenu extends React.Component {
             this.setState({selectedChannel: channel});
     
             // todo select place of this channel, if not already selected?
-            this.fetchPlaceInfo(channel.place.id);
+            this.fetchAndSelectPlace(channel.place.id);
     
             this.fetchStreamURLLink(channel.id);
         });
@@ -119,7 +113,7 @@ class RadioMenu extends React.Component {
         // document.getElementById("place-channels-info").innerHTML = "Place channels: " + JSON.stringify(channels);
     }
 
-    async fetchPlaceInfo(placeId:string) {
+    async fetchAndSelectPlace(placeId:string) {
         var placeInfo = await fetchSinglePlaceInfo(placeId);
         // document.getElementById("place-general-info").innerHTML = "Place general info: " + JSON.stringify(placeInfo);
         this.setState({selectedPlace: placeInfo});
@@ -165,8 +159,17 @@ class RadioMenu extends React.Component {
     */
     selectItem(item:any) {
         console.log("selectItem " + JSON.stringify(item));
-        if (item.page)
-            this.fetchPlaceInfo(item.page.url.split("/").pop());
+
+        // TODO: build logic to load a new place, or open popular station page
+        // url may also indicate a page, like local popular stations?
+        if (item.url && item.url.split("/").pop() === "popular")
+            console.log("POPULAR STATIONS -- not yet implemented");
+            // this.openPage(item.url);
+        else if (item.page && item.page.url.split("/").pop() === "channels")
+            console.log("ALL CHANNELS AT A PLACE -- not yet implemented");
+        else if (item.page)
+            // todo: add breadcrumbs to allow this 
+            this.fetchAndSelectPlace(item.page.url.split("/").pop());
         else
             this.selectChannel(item.href.split("/").pop());
     }

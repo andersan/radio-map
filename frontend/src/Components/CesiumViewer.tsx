@@ -1,7 +1,7 @@
 import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
 import { Cartesian3, Color, Ion } from "cesium";
-import {fetchAllPlacesJSONData, fetchSinglePlaceChannels, fetchSinglePlaceInfo} from '../APIs/rg-express-test-routes'
-// import {fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
+import {fetchAllPlacesJSONData, /*fetchSinglePlaceChannels, fetchSinglePlaceInfo*/} from '../APIs/rg-express-test-routes'
+import {fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
 import {Place} from '../APIs/radio-garden-api/api'
 import env from "../env.js"
 import React from 'react'

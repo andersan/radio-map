@@ -1,0 +1,122 @@
+{
+        "itemsType": "channel",
+        "title": "Stations in Austin TX",
+        "type": "list",
+        "items": [
+            {
+                "href": "/listen/fluffertrax/DZGmaNmu",
+                "title": "FluffertraX"
+            },
+            {
+                "page": {
+                    "type": "page",
+                    "count": 26,
+                    "map": "Aq7xeIiB",
+                    "subtitle": "All Stations",
+                    "title": "Austin TX",
+                    "url": "/visit/austin-tx/Aq7xeIiB/channels"
+                },
+                "rightAccessory": "chevron-right",
+                "title": "View all 26 stations",
+                "type": "more"
+            }
+        ]
+    },
+    {
+        "actionPage": {
+            "type": "page",
+            "count": 26,
+            "map": "Aq7xeIiB",
+            "subtitle": "Popular Stations",
+            "title": "Austin TX",
+            "url": "/visit/austin-tx/Aq7xeIiB/popular"
+        },
+        "actionText": "See all",
+        "items": [
+            {
+                "href": "/listen/austin-blues-radio/_hQCemA1",
+                "title": "Austin Blues Radio"
+            }
+        ],
+        "itemsType": "channel",
+        "title": "Popular in Austin TX",
+        "type": "list"
+    },
+    {
+        "itemsType": "channel",
+        "title": "Picks from the Area",
+        "type": "list",
+        "items": [
+            {
+                "map": "ILSa1N2P",
+                "href": "/listen/wordpress/ILSa1N2P",
+                "title": "Majic 104.3 - WMJU",
+                "subtitle": "Buda TX"
+            }
+        ]
+    },
+    {
+        "itemsType": "channel",
+        "title": "Popular in United States",
+        "type": "list",
+        "items": [
+            {
+                "map": "1vlrqH6v",
+                "href": "/listen/smooth-jazz-24-7/1vlrqH6v",
+                "title": "Smooth Jazz 24/7",
+                "subtitle": "New York NY"
+            },
+            {
+                "rightAccessory": "chevron-right",
+                "title": "Go to United States",
+                "type": "more",
+                "page": {
+                    "type": "page",
+                    "map": "9Yi25umJ",
+                    "title": "United States",
+                    "url": "/visit/united-states/GhDXw4EW"
+                }
+            }
+        ]
+    },
+    {
+        "rightAccessory": "chevron-right",
+        "title": "Nearby Austin TX",
+        "type": "list",
+        "items": [
+            {
+                "page": {
+                    "map": "80Nyw6zH",
+                    "url": "/visit/buda-tx/80Nyw6zH",
+                    "type": "page",
+                    "count": 1,
+                    "title": "Buda TX",
+                    "subtitle": "United States"
+                },
+                "title": "Buda TX",
+                "rightDetail": "23 km"
+            }
+        ]
+    },
+    {
+        "rightAccessory": "chevron-right",
+        "title": "Cities in United States",
+        "type": "list",
+        "items": [
+            {
+                "page": {
+                    "map": "9Yi25umJ",
+                    "url": "/visit/new-york-ny/9Yi25umJ",
+                    "type": "page",
+                    "count": 230,
+                    "title": "New York NY",
+                    "subtitle": "United States"
+                },
+                "title": "New York NY",
+                "leftAccessory": "count",
+                "leftAccessoryCount": 230
+            }
+        ]
+    }
+]
+}

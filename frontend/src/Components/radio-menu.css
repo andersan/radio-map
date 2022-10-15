@@ -73,6 +73,10 @@
   padding-right: 5px
 }
 
+.list-item-header {
+  background-color: transparent !important
+}
+
 @media (prefers-color-scheme: light) {
   /* :root {
     color: #213547;
