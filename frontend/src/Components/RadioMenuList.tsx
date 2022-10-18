@@ -1,25 +1,12 @@
 import React from 'react';
-import useState from 'react';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import { Scrollbars } from "react-custom-scrollbars-2";
-import ListSubheader from '@mui/material/ListSubheader';
-import Divider from '@mui/material/Divider';
-
-// import for detailed row
-// import List from '@mui/material/List';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 
 import { VariableSizeList } from 'react-window';
-
-import RadioMenuListRow from './RadioMenuListRow';
-import { EscalatorOutlined } from '@mui/icons-material';
 
 class RadioMenuList extends React.Component {
     state = {

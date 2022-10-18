@@ -19,7 +19,7 @@ var placeJSON = readFileSync('./places-export-curl.json',
   {encoding:'utf8', flag:'r'});
 var allPlacesData = JSON.parse(placeJSON);
 
-router.get('/json', async (req, res, next) => {
+router.get('/places', async (req, res, next) => {
   console.log("fetching data --- frontend express test");
   res.json(allPlacesData);
 });

@@ -8,6 +8,17 @@ import {inspect} from "util";
 
 const logResults = true;
 
+/* GET all places from RG */
+router.get('/places', async (req, res, next) => {
+  console.log("fetching data --- backend all places real");
+  const allPlaces = await getAllPlacesInRG();
+  if (logResults)
+    console.log("allPlaces: " + inspect(allPlaces, false, null, true));
+
+  res.json(allPlaces);
+});
+
+
 /* GET a radio station streaming URL. */
 router.get('/stream', async (req, res, next) => {
   console.log("customGetStreamURL");

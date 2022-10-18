@@ -1,4 +1,4 @@
-import {Place, SearchApi, PlacesApi, SearchResult, ChannelsApi, PlaceContentContentInner, AraContentPagePlaceIdGet200ResponseAllOfData, SelectedStations, ChannelRef, LocalPickStations, LocalPopularStations, AraContentPagePlaceIdChannelsGet200Response, AraContentPagePlaceIdChannelsGet200ResponseAllOfData, AraContentChannelChannelIdGet200Response, Channel} from "./api"
+import {Place, SearchApi, PlacesApi, SearchResult, ChannelsApi, PlaceContentContentInner, AraContentPagePlaceIdGet200ResponseAllOfData, SelectedStations, ChannelRef, LocalPickStations, LocalPopularStations, AraContentPagePlaceIdChannelsGet200Response, AraContentPagePlaceIdChannelsGet200ResponseAllOfData, AraContentChannelChannelIdGet200Response, Channel, AraContentPlacesGet200Response} from "./api"
 import AxiosResponse from "axios"
 import axios from "axios";
 import { inspect } from 'util'
@@ -19,9 +19,13 @@ import { inspect } from 'util'
 // araContentPagePlaceIdChannelsGet
 
 
-export async function getAllPlacesInRG():Promise<Place[]|undefined> {
-    return (await new PlacesApi().araContentPlacesGet()).data?.data?.list;
+export async function getAllPlacesInRG():Promise<AraContentPlacesGet200Response|undefined> {
+    return (await new PlacesApi().araContentPlacesGet()).data;
 } 
+
+// export async function getAllPlacesInRG():Promise<Place[]|undefined> {
+//     return (await new PlacesApi().araContentPlacesGet()).data?.data?.list;
+// } 
 
 export async function getSpecificPlace(placeId:string):Promise<AraContentPagePlaceIdGet200ResponseAllOfData|undefined> {
     // return a list of lists, including a list of stations, a button to get all stations, a button to show stations popular in the city, a list of nearby cities/places, and more
@@ -78,7 +82,7 @@ export async function customGetStreamUrl(channelId:string):Promise<string|undefi
 export async function getSomeStream(/*channelId:string*/):Promise<string|undefined> {
     var placeList = await getAllPlacesInRG();
 
-    var place = placeList![Math.floor(Math.random() * placeList!?.length)];
+    var place = placeList!?.data?.list?.[Math.floor(Math.random() * placeList!?.data?.list?.length)];
 
     var placeContentInnerList = await (await getSpecificPlace(place.id)).content;
 

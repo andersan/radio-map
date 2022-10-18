@@ -15,7 +15,7 @@ export async function fetchAllPlacesJSONData() {
     
     return fetch('https://d3fdikzwbmnd8q.cloudfront.net/radio/places-export-curl.json').then((res) => {
     // return fetch('https://andersan.s3.amazonaws.com/radio/places-export-curl.json').then((res) => {
-    // return fetch('http://radio.andersan.com/api/express/json').then((res) => {
+    // return fetch('http://radio.andersan.com/api/express/places').then((res) => {
         console.log("res.json() --- frontend express test");
         return res.json()
     });

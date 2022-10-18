@@ -6,6 +6,8 @@ const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 // import webpack from "webpack";
 // import CopyPlugin from "copy-webpack-plugin";
@@ -43,13 +45,14 @@ module.exports = (_env, args) => ({
           use: [{
               loader: 'ts-loader',
               options: {
-                  transpileOnly: true
+                  transpileOnly: true,
+                  // minimize: true
               }
           }]
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader","css-loader"]
       },
       {
         test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
@@ -90,7 +93,26 @@ module.exports = (_env, args) => ({
     //   filename: 'radio-garden.html',
     //   template: "radio-garden.html"
     // }),
-    ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+    ...(args.mode === "production" ? 
+    [new CompressionPlugin({
+      filename: '[path][base].br', //asset: '[path].br[query]'
+      algorithm: 'brotliCompress', //for CompressionPlugin
+      deleteOriginalAssets: false, //for CompressionPlugin
+      test: /\.(ts|tsx|jsx|js|css|html|svg)$/,
+      compressionOptions: {
+        // zlib’s `level` option matches Brotli’s `BROTLI_PARAM_QUALITY` option.
+        level: 11,
+      },
+      threshold: 10240,
+      minRatio: 0.8
+    }),
+    new CompressionPlugin({
+      filename: '[path][base].gz', //asset: '[path].gz[query]'
+      algorithm: 'gzip',
+      test: /\.(ts|tsx|jsx|js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
   ],
   // resolve: {
   //     fallback: {
@@ -115,5 +137,12 @@ module.exports = (_env, args) => ({
   },
   experiments: {
     topLevelAwait: true
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      parallel: 2,
+      test: /\.[tj]sx?$/i,
+    })],
   },
 });

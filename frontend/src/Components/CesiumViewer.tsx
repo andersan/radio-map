@@ -1,8 +1,8 @@
 import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
 import { Cartesian3, Color, Ion } from "cesium";
 import {fetchAllPlacesJSONData, /*fetchSinglePlaceChannels, fetchSinglePlaceInfo*/} from '../APIs/rg-express-test-routes'
-import {fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
-import {Place} from '../APIs/radio-garden-api/api'
+import {/*fetchAllPlacesJSONData,*/ fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
+// import {Place} from '../APIs/radio-garden-api/api'
 import env from "../env.js"
 import React from 'react'
 
@@ -16,7 +16,6 @@ const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 // TODO: set up API calls so that when a place is selected, it gets that place's data
 
 // TODO: build place data UI/nav
-
 
 var placeData = await fetchAllPlacesJSONData();
 // console.log(Object.keys(placeData));

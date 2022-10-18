@@ -1,6 +1,12 @@
 var production = process.env.NODE_ENV === 'production';
 var baseURL = production ? 'http://radio.andersan.com' : 'http://localhost:5000';
 
+export async function fetchAllPlacesJSONData() {
+    var result = await fetch(baseURL + '/api/radio-direct/places');
+    var json = await result.json();
+    return json;
+}
+
 export async function fetchSinglePlaceInfo(placeId:string) {
     console.log("fetching data --- fetchSinglePlaceInfo");
     return fetch(baseURL + '/api/radio-direct/place-info?' + new URLSearchParams({

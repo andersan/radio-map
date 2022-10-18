@@ -1,4 +1,3 @@
-import Cesium3DTile from "cesium/Source/Scene/Cesium3DTile";
 import RadioMenu from "./Components/RadioMenu";
 import CesiumViewer from "./Components/CesiumViewer";
 import {useState} from "react";
