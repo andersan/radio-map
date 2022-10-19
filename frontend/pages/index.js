@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import {useState} from "react";
 
@@ -17,9 +16,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <link rel="stylesheet" href="cesium/Widgets/widgets.css" />
-      </Head>
       <RadioMenu selectedPlace={selectedPlace} selectedChannel={selectedChannel}></RadioMenu>
       <CesiumViewer setSelectedPlace={setSelectedPlace} setSelectedChannel={setSelectedChannel}></CesiumViewer>
     </>
