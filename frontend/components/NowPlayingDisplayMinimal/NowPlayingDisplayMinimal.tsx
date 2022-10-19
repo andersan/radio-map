@@ -86,7 +86,7 @@ export default class NowPlayingDisplayMinimal extends React.Component {
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" component="div">
                   {/* TODO: display the channel's place's name below the channel's name */}
-                  {this.state.selectedChannel && this.state.selectedChannel.subtitle ? this.state.selectedChannel.subtitle : this.state.selectedPlace ? this.state.selectedPlace.subtitle : null}
+                  {this.state.selectedChannel && this.state.selectedChannel.subtitle ? this.state.selectedChannel.subtitle : this.state.selectedChannel.country ? this.state.selectedChannel.country.title  /* could also use place title, this.state.selectedChannel.place.title */: this.state.selectedPlace ? this.state.selectedPlace.subtitle : null}
                 </Typography>
               </CardContent>
             </Box>
