@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 // const CopyPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 // process.env.en
 module.exports = {
@@ -19,6 +20,10 @@ module.exports = {
       //   ],
       // }),
     );
+    config.optimization.minimize = true;
+    config.optimization.minimizer = [new TerserPlugin({
+      parallel: 1
+    })];
     config.experiments.topLevelAwait = true;
     return config;
   }
