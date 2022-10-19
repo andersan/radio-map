@@ -13,6 +13,8 @@ class RadioMenuList extends React.Component {
         listItems: [],
         flatListItems: [],
         selectItem: null,
+        mounted: false,
+        updateWaitingForMount: false,
     }
 
     constructor(props:any) {
@@ -21,6 +23,8 @@ class RadioMenuList extends React.Component {
             listItems: [],
             flatListItems: [],
             selectItem: null,
+            mounted: false,
+            updateWaitingForMount: false,
         }
 
         if (props.listItems &&
@@ -37,32 +41,47 @@ class RadioMenuList extends React.Component {
     componentDidMount(): void {
         // alert("RadioMenu mounted!!!");
         console.warn("RadioMenuList mounted!!!");
+        this.setState({mounted: true});
+        if (this.state.updateWaitingForMount) {
+            this.setState({updateWaitingForMount: false});
+            this.forceUpdate(this.state.updateWaitingForMount, this);
+        }
     }
 
     componentDidUpdate(prevProps) {
         console.log("componentDidUpdate RadioMenuList");
+        if (!this.state.mounted) {
+            console.log("RadioMenuList not yet mounted");
+            this.setState({updateWaitingForMount: prevProps});
+        }
+        else
+            this.forceUpdate(prevProps, this);
+        console.log("componentDidUpdate RadioMenuList");
+    }
+
+    forceUpdate(prevProps, thisFromParent) {
         console.log(prevProps.listItems);
-        console.log(this.props.listItems);
-        console.log(this.state.listItems);
+        console.log(thisFromParent.props.listItems);
+        console.log(thisFromParent.state.listItems);
 
         // TODO: this condition is extremely bad 
-        if ((prevProps.listItems !== this.props.listItems || this.state.listItems.length !== this.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1).length) && 
-            this.props.listItems &&
-            this.props.listItems !== undefined &&
-            Array.isArray(this.props.listItems)) {
+        if ((prevProps.listItems !== thisFromParent.props.listItems || thisFromParent.state.listItems.length !== thisFromParent.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1).length) && 
+            thisFromParent.props.listItems &&
+            thisFromParent.props.listItems !== undefined &&
+            Array.isArray(thisFromParent.props.listItems)) {
             console.log("listItems updated");
-            // this.setState({ listItems: this.props.listItems});
-            this.setState({ listItems: this.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1)});
-            // this.setState({ listItems: [{title: "hello"}, {title: "hello2"}]});
-            console.log(JSON.stringify(this.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1)));
-            console.log(JSON.stringify(this.props.listItems.flat(1)));
-            this.setState({ flatListItems: this.flattenListItems(this.props.listItems)});
+            // thisFromParent.setState({ listItems: thisFromParent.props.listItems});
+            thisFromParent.setState({ listItems: thisFromParent.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1)});
+            // thisFromParent.setState({ listItems: [{title: "hello"}, {title: "hello2"}]});
+            console.log(JSON.stringify(thisFromParent.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1)));
+            console.log(JSON.stringify(thisFromParent.props.listItems.flat(1)));
+            thisFromParent.setState({ flatListItems: thisFromParent.flattenListItems(thisFromParent.props.listItems)});
         }
 
-        if (this.state.selectItem !== this.props.selectItem) {
+        if (thisFromParent.state.selectItem !== thisFromParent.props.selectItem) {
             console.log("selectItem updated");
-            this.setState({ selectItem: this.props.selectItem});
-            console.log(this.props.selectItem);
+            thisFromParent.setState({ selectItem: thisFromParent.props.selectItem});
+            console.log(thisFromParent.props.selectItem);
         }
     }
     /*{
@@ -227,6 +246,8 @@ class RadioMenuList extends React.Component {
                 }
             }
         }
+        // filter out items without titles - would be empty rows
+        flattenedListItems = flattenedListItems.filter(item => item.title);
         console.log("flattenedListItems");
         console.log(flattenedListItems);
         return flattenedListItems;
@@ -269,31 +290,59 @@ class RadioMenuList extends React.Component {
                     className={"place-list-item"}
                     onClick={() => this.state.selectItem(this.state.flatListItems[index])}
                     >
-                    <ListItemButton>
-                        <ListItemText 
-                        primary={this.state.flatListItems[index].title}
-                        />
-                        <ChevronRightRoundedIcon/>
-                    </ListItemButton>
+                        {this.state.flatListItems[index].rightDetail ? 
+                        <ListItemButton>
+                            <ListItemText 
+                            primary={this.state.flatListItems[index].title}
+                            secondary={this.state.flatListItems[index].rightDetail} // TODO: add this with redux states + " from " + this.state.selectedPlace.title}
+                            />
+                            <ChevronRightRoundedIcon/>
+                        </ListItemButton>
+                            :
+                        this.state.flatListItems[index].leftAccessory ? 
+                        <ListItemButton>
+                            <ListItemText 
+                            primary={this.state.flatListItems[index].title}
+                            secondary={this.state.flatListItems[index].leftAccessoryCount + " stations"}
+                            />
+                            <ChevronRightRoundedIcon/>
+                        </ListItemButton>
+                            :
+                        <ListItemButton>
+                            <ListItemText 
+                            primary={this.state.flatListItems[index].title}
+                            />
+                            <ChevronRightRoundedIcon/>
+                        </ListItemButton>
+                        }
                     </ListItem>);
             }
-            else {
+            else if (this.state.flatListItems[index].title) {
                 return (
                     <ListItem style={style} key={index} component="div" 
                     disablePadding
                     className={this.state.flatListItems[index].subtitle ? 'channel-list-item-with-subtitle' : 'channel-list-item-single-line'}
                     onClick={() => this.state.selectItem(this.state.flatListItems[index])}
                     >
-                    <ListItemButton>
-                        <ListItemText 
-                        primary={this.state.flatListItems[index].title}
-                        secondary={this.state.flatListItems[index].subtitle}
-                        />
-                    </ListItemButton>
+                    {this.state.flatListItems[index].subtitle ? 
+                        <ListItemButton>
+                            <ListItemText 
+                            primary={this.state.flatListItems[index].title}
+                            secondary={this.state.flatListItems[index].subtitle}
+                            />
+                        </ListItemButton>
+                            :
+                            
+                        <ListItemButton>
+                            <ListItemText 
+                            primary={this.state.flatListItems[index].title}
+                            />
+                        </ListItemButton>
+                    }
                     </ListItem>);
             }
         }
-        else return <div id="empty-rows"></div>;
+        else return <div className="empty-row"></div>;
     }
 
     getItemSize = index => {

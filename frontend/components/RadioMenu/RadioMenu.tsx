@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Divider from '@mui/material/Divider';
 
 // import { RadioStation } from './api';
 // import { Channel, Place } from '../../shared/libs/radio-garden-api';
@@ -26,6 +27,9 @@ class RadioMenu extends React.Component {
         isClosed: false,
         playMusicFunc: null,
         pauseMusicFunc: null,
+        channels: null,
+        mounted: false,
+        updateWaitingForMount: false,
     }
 
     // radio browser api
@@ -41,27 +45,42 @@ class RadioMenu extends React.Component {
     componentDidMount(): void {
         // alert("RadioMenu mounted!!!");
         console.warn("RadioMenu mounted!!!");
+        this.setState({mounted: true});
+        if (this.state.updateWaitingForMount) {
+            this.setState({updateWaitingForMount: false});
+            this.forceUpdate(this.state.updateWaitingForMount, this);
+        }
     }
 
     componentDidUpdate(prevProps) {
         console.log("componentDidUpdate radio menu");
-        console.log(prevProps.selectedPlace);
-        console.log(this.props.selectedPlace);
-        console.log(prevProps.selectedChannel);
-        console.log(this.props.selectedChannel);
+        if (!this.state.mounted) {
+            console.log("radio menu not yet mounted");
+            this.setState({updateWaitingForMount: prevProps});
+        }
+        else
+            this.forceUpdate(prevProps, this);
+    }
 
-        if (prevProps.selectedPlace !== this.props.selectedPlace && this.props.selectedPlace) {
+    forceUpdate(prevProps, thisFromParent) {
+        console.log(prevProps.selectedPlace);
+        console.log(thisFromParent.props.selectedPlace);
+        console.log(prevProps.selectedChannel);
+        console.log(thisFromParent.props.selectedChannel);
+
+        if (prevProps.selectedPlace !== thisFromParent.props.selectedPlace && thisFromParent.props.selectedPlace) {
             console.log("selectedPlace updated");
-            this.openRadioMenu();
-            this.setState({ selectedPlace: this.props.selectedPlace });
-            this.fetchPlaceChannels(this.props.selectedPlace.map);
+            thisFromParent.openRadioMenu();
+            thisFromParent.setState({ selectedPlace: thisFromParent.props.selectedPlace,
+                channels: null });
+            // this.fetchPlaceChannels(this.props.selectedPlace.map);
         }
 
-        if (prevProps.selectedChannel !== this.props.selectedChannel && this.props.selectedChannel) {
+        if (prevProps.selectedChannel !== thisFromParent.props.selectedChannel && thisFromParent.props.selectedChannel) {
             console.log("selectedChannel updated");
             // this.playingRadioMenu();
-            this.setState({ selectedChannel: this.props.selectedChannel });
-            this.fetchStreamURLLink(this.props.selectedChannel.href.split('/').pop());
+            thisFromParent.setState({ selectedChannel: thisFromParent.props.selectedChannel });
+            thisFromParent.fetchStreamURLLink(thisFromParent.props.selectedChannel.href.split('/').pop());
         }
     }
 
@@ -74,7 +93,7 @@ class RadioMenu extends React.Component {
             this.setState({selectedChannel: channel});
     
             // todo select place of this channel, if not already selected?
-            this.fetchAndSelectPlace(channel.place.id);
+            // this.fetchAndSelectPlace(channel.place.id);
     
             this.fetchStreamURLLink(channel.id);
         });
@@ -108,6 +127,7 @@ class RadioMenu extends React.Component {
 
     async fetchPlaceChannels(placeId:string) {
         var channels = await fetchSinglePlaceChannels(placeId);
+        console.log(JSON.stringify(channels));
         this.setState({channels: channels});
         // document.getElementById("place-channels-info").innerHTML = "Place channels: " + JSON.stringify(channels);
     }
@@ -115,7 +135,10 @@ class RadioMenu extends React.Component {
     async fetchAndSelectPlace(placeId:string) {
         var placeInfo = await fetchSinglePlaceInfo(placeId);
         // document.getElementById("place-general-info").innerHTML = "Place general info: " + JSON.stringify(placeInfo);
-        this.setState({selectedPlace: placeInfo});
+        this.setState({
+            selectedPlace: placeInfo,
+            channels: null
+        });
     }
 
     async fetchStreamURLLink(channelId:string) {
@@ -165,7 +188,8 @@ class RadioMenu extends React.Component {
             console.log("POPULAR STATIONS -- not yet implemented");
             // this.openPage(item.url);
         else if (item.page && item.page.url.split("/").pop() === "channels")
-            console.log("ALL CHANNELS AT A PLACE -- not yet implemented");
+            // console.log("ALL CHANNELS AT A PLACE -- not yet implemented");
+            this.fetchPlaceChannels(item.page.url.split("/")[3]);
         else if (item.page)
             // todo: add breadcrumbs to allow this 
             this.fetchAndSelectPlace(item.page.url.split("/").pop());
@@ -202,12 +226,19 @@ class RadioMenu extends React.Component {
                     {this.state.selectedPlace ? (
                         <div>
                             {
-                                this.state.selectedPlace ? (
+                                this.state.channels ? (
+                                    <RadioMenuList
+                                    listItems={this.state.channels.content}
+                                    selectItem={this.selectItem}>
+                                    </RadioMenuList>
+                                )
+                                :
+                                (this.state.selectedPlace ? (
                                     <RadioMenuList
                                     listItems={this.state.selectedPlace.content}
                                     selectItem={this.selectItem}>
                                     </RadioMenuList>
-                                ) : (<div></div>)
+                                ) : (<div></div>))
                             }
                         </div>
                     ) : (
@@ -235,6 +266,9 @@ class RadioMenu extends React.Component {
                         <button type="submit">Search</button>
                     </form>
                 </div> */}
+                {this.state.selectedChannel && !this.state.isClosed
+                    ? <Divider/>
+                    : <div style={{"display":"none"}}></div>}
                 {this.state.selectedChannel ? 
                     // <NowPlayingDisplay
                     <NowPlayingDisplayMinimal
