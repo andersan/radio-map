@@ -1503,6 +1503,41 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        araContentPagePlaceIdPopularChannelsGet: async (placeId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'placeId' is not null or undefined
+            assertParamExists('araContentPagePlaceIdPopularChannelsGet', 'placeId', placeId)
+            const localVarPath = `/ara/content/page/{placeId}/popular`
+                .replace(`{${"placeId"}}`, encodeURIComponent(String(placeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+
+        /**
+         * 
+         * @summary Get a place\'s registered radio stations
+         * @param {string} placeId ID of place to use
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         araContentPagePlaceIdChannelsGet: async (placeId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'placeId' is not null or undefined
             assertParamExists('araContentPagePlaceIdChannelsGet', 'placeId', placeId)
@@ -1611,6 +1646,17 @@ export const PlacesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async araContentPagePlaceIdPopularChannelsGet(placeId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AraContentPagePlaceIdChannelsGet200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.araContentPagePlaceIdPopularChannelsGet(placeId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get a place\'s registered radio stations
+         * @param {string} placeId ID of place to use
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async araContentPagePlaceIdChannelsGet(placeId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AraContentPagePlaceIdChannelsGet200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.araContentPagePlaceIdChannelsGet(placeId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -1685,6 +1731,18 @@ export const PlacesApiFactory = function (configuration?: Configuration, basePat
  * @extends {BaseAPI}
  */
 export class PlacesApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get a place\'s popular radio stations
+     * @param {string} placeId ID of place to use
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PlacesApi
+     */
+    public araContentPagePlaceIdPopularChannelsGet(placeId: string, options?: AxiosRequestConfig) {
+        return PlacesApiFp(this.configuration).araContentPagePlaceIdChannelsGet(placeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Get a place\'s registered radio stations
