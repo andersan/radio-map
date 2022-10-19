@@ -8,14 +8,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
 // import { RadioStation } from './api';
-// import { Channel, Place } from '../APIs/radio-garden-api';
-import "./radio-menu.css"
-import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
-// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../APIs/rg-express-test-routes'
+// import { Channel, Place } from '../../shared/libs/radio-garden-api';
+import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../../shared/libs/rg-express-routes-real'
+// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../../shared/libs/rg-express-test-routes'
 
-import RadioMenuList from './RadioMenuList';
+import RadioMenuList from '../RadioMenuList/RadioMenuList';
 // import NowPlayingDisplay from './NowPlayingDisplay';
-import NowPlayingDisplayMinimal from './NowPlayingDisplayMinimal';
+import NowPlayingDisplayMinimal from '../NowPlayingDisplayMinimal/NowPlayingDisplayMinimal';
 
 class RadioMenu extends React.Component {
     // radio garden api

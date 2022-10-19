@@ -1,9 +1,15 @@
 import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
-import { Cartesian3, Color, Ion } from "cesium";
-import {fetchAllPlacesJSONData, /*fetchSinglePlaceChannels, fetchSinglePlaceInfo*/} from '../APIs/rg-express-test-routes'
-import {/*fetchAllPlacesJSONData,*/ fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../APIs/rg-express-routes-real'
+// import { Cartesian3, Color, Ion } from "cesium";
+// import Viewer from "resium/src/Viewer";
+// import PointPrimitive from "resium/src/PointPrimitive";
+// import PointPrimitiveCollection from "resium/src/PointPrimitiveCollection";
+import Cartesian3 from "cesium/Source/Core/Cartesian3";
+import Color from "cesium/Source/Core/Color";
+import Ion from "cesium/Source/Core/Ion";
+import {fetchAllPlacesJSONData, /*fetchSinglePlaceChannels, fetchSinglePlaceInfo*/} from '../../shared/libs/rg-express-test-routes'
+import {/*fetchAllPlacesJSONData,*/ fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../../shared/libs/rg-express-routes-real'
 // import {Place} from '../APIs/radio-garden-api/api'
-import env from "../env.js"
+// import env from "../../env.js"
 import React from 'react'
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
@@ -27,7 +33,7 @@ function getPlaceSizeInPixels(size:number): number {
 }
 
 
-Ion.defaultAccessToken = env["cesium_access_token"];
+Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN!;
 
 class CesiumViewer extends React.Component {
   viewer;

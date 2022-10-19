@@ -17,7 +17,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import PauseIcon from '@mui/icons-material/Pause';
 
-import howlerPlayer from '../APIs/howler-player';
+import howlerPlayer from '../../shared/libs/howler-player';
 
 export default class NowPlayingDisplayMinimal extends React.Component {
   state = {
