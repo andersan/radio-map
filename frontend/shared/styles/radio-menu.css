@@ -20,7 +20,7 @@
   width: 100%;
   background-color: white;
   color: #222;
-  padding: 10px;
+  /* padding: 10px; */
   position: absolute;
   bottom: 0;
   left: 0;
@@ -44,6 +44,7 @@
 #place-info-list {
   color: #333333;
   font-weight: bold;
+  max-width: 100%;
 }
 
 .row-with-subtitle {
@@ -89,4 +90,14 @@
     background-color: #f9f9f9;
   } */
 }
-    
+
+/* media queries - max width 600px */
+@media (max-width: 600px) {
+  .menu-container {
+    width: 100%;
+  }
+
+  .action-page-button {
+    text-align: right;
+  }
+}
