@@ -24,7 +24,7 @@ class RadioMenu extends React.Component {
         selectedChannel: this.props.selectedChannel,
         streamURL: null,
         isPlaying: false,
-        isClosed: false,
+        isClosed: true,
         playMusicFunc: null,
         pauseMusicFunc: null,
         channels: null,
