@@ -1,5 +1,5 @@
 var production = process.env.NODE_ENV === 'production';
-var baseURL = production ? 'http://radio.andersan.com' : 'http://localhost:5000';
+var baseURL = production ? 'https://radio.andersan.com' : 'http://localhost:5000';
 
 export async function fetchAllPlacesJSONData() {
     var result = await fetch(baseURL + '/api/radio-direct/places');
@@ -23,6 +23,16 @@ export async function fetchSinglePlaceChannels(placeId:string) {
         placeId: placeId,
     })).then((res) => {
         console.log("res.json() --- fetch single place channels");
+        return res.json()
+    });
+}
+
+export async function fetchPopularChannelsFromPlace(placeId:string) {
+    console.log("fetching data --- fetchPopularChannelsFromPlace");
+    return fetch(baseURL + '/api/radio-direct/popular-channels?' + new URLSearchParams({
+        placeId: placeId,
+    })).then((res) => {
+        console.log("res.json() --- fetch popular channels");
         return res.json()
     });
 }

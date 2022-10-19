@@ -58,6 +58,17 @@ router.get('/place-channels', async (req, res, next) => {
   res.json(placeChannelsData);
 });
 
+// return a sample response for a place's popular channels
+
+var placePopularChannelsJSON = readFileSync('./place-popular-channels.json',
+{encoding:'utf8', flag:'r'});
+var placePopularChannelsData = JSON.parse(placePopularChannelsJSON);
+
+router.get('/popular-channels', async (req, res, next) => {
+  console.log("fetching data --- frontend express test");
+  res.json(placePopularChannelsData);
+});
+
 // return a sample response for a search query
 
 var searchQueryJSON = readFileSync('./search-query.json',

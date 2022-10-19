@@ -10,8 +10,8 @@ import Divider from '@mui/material/Divider';
 
 // import { RadioStation } from './api';
 // import { Channel, Place } from '../../shared/libs/radio-garden-api';
-import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../../shared/libs/rg-express-routes-real'
-// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo} from '../../shared/libs/rg-express-test-routes'
+import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo, fetchPopularChannelsFromPlace} from '../../shared/libs/rg-express-routes-real'
+// import {fetchSearch, fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchStreamURL, fetchSingleChannelInfo, fetchPopularChannelsFromPlace} from '../../shared/libs/rg-express-test-routes'
 
 import RadioMenuList from '../RadioMenuList/RadioMenuList';
 // import NowPlayingDisplay from './NowPlayingDisplay';
@@ -132,6 +132,13 @@ class RadioMenu extends React.Component {
         // document.getElementById("place-channels-info").innerHTML = "Place channels: " + JSON.stringify(channels);
     }
 
+    async fetchPopularChannels(placeId:string) {
+        var channels = await fetchPopularChannelsFromPlace(placeId);
+        console.log(JSON.stringify(channels));
+        this.setState({channels: channels});
+        // document.getElementById("place-channels-info").innerHTML = "Place channels: " + JSON.stringify(channels);
+    }
+
     async fetchAndSelectPlace(placeId:string) {
         var placeInfo = await fetchSinglePlaceInfo(placeId);
         // document.getElementById("place-general-info").innerHTML = "Place general info: " + JSON.stringify(placeInfo);
@@ -185,7 +192,8 @@ class RadioMenu extends React.Component {
         // TODO: build logic to load a new place, or open popular station page
         // url may also indicate a page, like local popular stations?
         if (item.url && item.url.split("/").pop() === "popular")
-            console.log("POPULAR STATIONS -- not yet implemented");
+            // console.log("POPULAR STATIONS -- not yet implemented");
+            this.fetchPopularChannels(item.url.split("/")[3])
             // this.openPage(item.url);
         else if (item.page && item.page.url.split("/").pop() === "channels")
             // console.log("ALL CHANNELS AT A PLACE -- not yet implemented");

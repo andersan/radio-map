@@ -37,6 +37,11 @@ export async function getAllChannelsInSpecificPlace(placeId:string):Promise<AraC
     return (await new PlacesApi().araContentPagePlaceIdChannelsGet(placeId)).data?.data;
 } 
 
+export async function getPopularChannelsInSpecificPlace(placeId:string):Promise<AraContentPagePlaceIdChannelsGet200ResponseAllOfData|undefined> {
+    // return a list of lists, including a list of stations, a button to get all stations, a button to show stations popular in the city, a list of nearby cities/places, and more
+    return (await new PlacesApi().araContentPagePlaceIdChannelsGet(placeId)).data?.data;
+} 
+
 // returns a list of both stations and channels that match the search query
 export async function searchPlacesAndChannels(query:string):Promise<SearchResult[]|undefined> {
     return (await new SearchApi().searchGet(query)).data?.hits?.hits;

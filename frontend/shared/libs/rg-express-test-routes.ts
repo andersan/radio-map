@@ -1,5 +1,5 @@
 var production = process.env.NEXT_PUBLIC_ENVIRONMENT === 'production';
-var baseURL = production ? 'http://radio.andersan.com' : 'http://localhost:5000';
+var baseURL = production ? 'https://radio.andersan.com' : 'http://localhost:5000';
 
 export async function fetchData() {
     console.log("fetching data --- frontend express test");
@@ -41,6 +41,17 @@ export async function fetchSinglePlaceChannels(placeID:string) {
         return res.json()
     });
 }
+
+export async function fetchPopularChannelsFromPlace(placeId:string) {
+    console.log("fetching data --- fetchPopularChannelsFromPlace");
+    return fetch(baseURL + '/api/express/popular-channels?' + new URLSearchParams({
+        placeId: placeId,
+    })).then((res) => {
+        console.log("res.json() --- fetch popular channels");
+        return res.json()
+    });
+}
+
 
 export async function fetchSingleChannelInfo(channelID:string) {
     console.log("fetching data --- fetchSingleChannelInfo");
