@@ -42,7 +42,9 @@ class CesiumViewer extends React.Component {
   }
 
   componentDidMount(): void {
-
+    console.log("CesiumViewer mounted!!!");
+    console.log(this.viewerComponent);
+    this.viewerComponent.cesiumElement.scene.globe.showGroundAtmosphere = false
   }
 
   render() {
@@ -69,8 +71,10 @@ class CesiumViewer extends React.Component {
         // remove some effects from the globe
         // remove atmosphere along earth's edges
         skyAtmosphere={false}
+        
         // remove stars
         skyBox={false}
+        
         ref={e => {
           console.log("RENDER viewer");
           // this.state.viewer = e && e.cesiumElement;
@@ -91,6 +95,9 @@ class CesiumViewer extends React.Component {
           left: 0,
           right: 0,
           bottom: 0,
+        }}
+        ref={viewer => { 
+          this.viewerComponent = viewer;
         }}
         >
         { <PointPrimitiveCollection>
