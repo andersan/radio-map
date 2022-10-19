@@ -5,6 +5,14 @@ const TerserPlugin = require('terser-webpack-plugin');
 // process.env.en
 module.exports = {
   reactStrictMode: true,
+  // config.serverRuntimeConfig = {
+  //   API_URL: process.env.API_URL,
+  // }
+  // Will be available on both server and client
+  env: {
+    NEXT_PUBLIC_CESIUM_ACCESS_TOKEN: process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN,
+    ENVIRONMENT: process.env.ENVIRONMENT,
+  },
   webpack: config => {
     // config.mode = process.env.ENVIRONMENT === 'production' ? 'production' : 'development';
     config.plugins.push(

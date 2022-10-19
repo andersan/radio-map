@@ -1,4 +1,4 @@
-var production = process.env.NODE_ENV === 'production';
+var production = process.env.NEXT_PUBLIC_ENVIRONMENT === 'production';
 var baseURL = production ? 'http://radio.andersan.com' : 'http://localhost:5000';
 
 export async function fetchData() {
