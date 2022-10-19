@@ -7,8 +7,11 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import { Scrollbars } from "react-custom-scrollbars-2";
 
 import { VariableSizeList } from 'react-window';
+import withWindowDimensions from "./withWindowDimensions";
 
 class RadioMenuList extends React.Component {
+    varListRef = React.createRef();
+
     state = {
         listItems: [],
         flatListItems: [],
@@ -27,6 +30,7 @@ class RadioMenuList extends React.Component {
             updateWaitingForMount: false,
         }
 
+        
         if (props.listItems &&
             props.listItems !== undefined &&
             Array.isArray(props.listItems) && props.listItems.length > 0) {
@@ -64,6 +68,7 @@ class RadioMenuList extends React.Component {
         console.log(thisFromParent.props.listItems);
         console.log(thisFromParent.state.listItems);
 
+
         // TODO: this condition is extremely bad 
         if ((prevProps.listItems !== thisFromParent.props.listItems || thisFromParent.state.listItems.length !== thisFromParent.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1).length) && 
             thisFromParent.props.listItems &&
@@ -76,6 +81,11 @@ class RadioMenuList extends React.Component {
             console.log(JSON.stringify(thisFromParent.props.listItems.map(contentTopLevel => contentTopLevel.items).flat(1)));
             console.log(JSON.stringify(thisFromParent.props.listItems.flat(1)));
             thisFromParent.setState({ flatListItems: thisFromParent.flattenListItems(thisFromParent.props.listItems)});
+            console.log("this.varListRef");
+            console.log(this.varListRef);
+            // reset heights of list items
+            if (this.varListRef && this.varListRef.current)
+                this.varListRef.current.resetAfterIndex(0);
         }
 
         if (thisFromParent.state.selectItem !== thisFromParent.props.selectItem) {
@@ -256,7 +266,7 @@ class RadioMenuList extends React.Component {
     renderFlattenedRow({ index, style }) {
         console.log("renderFlattenedRow");
         console.log({index, style});
-        // console.log(this.state.flatListItems);
+        console.log(this.state.flatListItems[index]);
         // console.log(this.state.flatListItems && this.state.flatListItems.length > 0) 
         if (this.state.flatListItems && this.state.flatListItems.length > 0) {
             if (this.state.flatListItems[index].items) {
@@ -367,36 +377,44 @@ class RadioMenuList extends React.Component {
             return 0;
     }
 
-    listRef = React.createRef();
-
     handleScroll = ({ target }) => {
       const { scrollTop } = target;
   
-      this.listRef.current.scrollTo(scrollTop);
+      this.varListRef.current.scrollTo(scrollTop);
     };
 
+    getMaxHeightForVariableList():number {
+        console.log("this.props.windowHeight");
+        console.log(this.props.windowHeight);
+        if (this.props.windowHeight > 800)
+            return 600;
+        else
+            return this.props.windowHeight - 200;
+    }
+
     render() {
+        var height = this.getMaxHeightForVariableList();
         return (
             this.state && this.state.flatListItems && this.state.flatListItems.length > 0 ? (
 
           <Box
             id="place-info-list"
-            sx={{ width: '100%', height: 600, maxWidth: 360, bgcolor: 'background.paper' }}
+            sx={{ width: '100%', height: {height}, maxWidth: 400, bgcolor: 'background.paper' }}
           >
             <Scrollbars
                 autoHeight={true}
-                autoHeightMax={600}
+                autoHeightMax={height}
                 onScroll={this.handleScroll}
             >
                 <VariableSizeList
-                    height={600}
+                    ref={this.varListRef}
+                    height={height}
                     width={'100%'}
                     itemSize={this.getFlatItemSize}
                     itemCount={this.state.flatListItems.length}
                     // itemCount={10}
                     overscanCount={5}
                     // overflow="hidden"
-                    ref={this.listRef}
                     style={{ overflow: false }}
                 >
                     {this.renderFlattenedRow}
@@ -409,4 +427,4 @@ class RadioMenuList extends React.Component {
     }
 }
 
-export default RadioMenuList;
+export default withWindowDimensions(RadioMenuList);
