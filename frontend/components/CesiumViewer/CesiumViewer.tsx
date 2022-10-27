@@ -4,7 +4,11 @@ import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
 // import PointPrimitive from "resium/src/PointPrimitive";
 // import PointPrimitiveCollection from "resium/src/PointPrimitiveCollection";
 import Cartesian3 from "cesium/Source/Core/Cartesian3";
+import Cartesian2 from "cesium/Source/Core/Cartesian2";
 import Color from "cesium/Source/Core/Color";
+import Camera from "cesium/Source/Scene/Camera";
+import Rectangle from "cesium/Source/Core/Rectangle";
+import NearFarScalar from "cesium/Source/Core/NearFarScalar";
 import Ion from "cesium/Source/Core/Ion";
 import {fetchAllPlacesJSONData, /*fetchSinglePlaceChannels, fetchSinglePlaceInfo*/} from '../../shared/libs/rg-express-test-routes'
 import {/*fetchAllPlacesJSONData,*/ fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../../shared/libs/rg-express-routes-real'
@@ -12,7 +16,9 @@ import {/*fetchAllPlacesJSONData,*/ fetchSinglePlaceChannels, fetchSinglePlaceIn
 // import env from "../../env.js"
 import React from 'react'
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
+// document.camera = Camera;
+
+// const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 // const terrainProvider = createWorldTerrain();
 
 // TODO: load geo data from places-export-curl.json
@@ -29,7 +35,7 @@ var placeData = await fetchAllPlacesJSONData();
 // console.log(placeData);
 
 function getPlaceSizeInPixels(size:number): number {
-  return Math.max(3, Math.log(size) * 4);
+  return Math.max(10, Math.log(size) * 6);
 }
 
 
@@ -37,14 +43,96 @@ Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN!;
 
 class CesiumViewer extends React.Component {
   viewer;
+  user_position_label;
+  viewerComponent;
+
   constructor(props:any) {
     super(props);
+
+    this.showPosition = this.showPosition.bind(this);
   }
 
   componentDidMount(): void {
     console.log("CesiumViewer mounted!!!");
     console.log(this.viewerComponent);
-    this.viewerComponent.cesiumElement.scene.globe.showGroundAtmosphere = false
+    // document.viewerComponent = this.viewerComponent;
+    this.viewerComponent.cesiumElement.scene.globe.showGroundAtmosphere = false;
+    var viewer = this.viewerComponent;
+    var selectClosestPlace = this.selectClosestPlace;
+
+    function handleMove() {
+      // console.log("camera moved");
+      // console.log(viewer.cesiumElement.scene.camera.positionCartographic);
+      // console.log(viewer.cesiumElement.scene.camera.positionCartographic.height);
+      var center = viewer.cesiumElement.scene.camera.position;
+      console.log(center);
+
+      selectClosestPlace(center);
+    }
+
+    if (this.viewerComponent) {
+      console.log("listenForMovementOrZoom");
+      this.viewerComponent.cesiumElement.scene.camera.moveEnd.addEventListener(function() {
+        handleMove();
+      });
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.showPosition);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  selectClosestPlace(center) {
+    console.log("selectClosestPlace");
+    console.log(center);
+    // TODO: select closest place to camera position
+  }
+
+  showPosition(position) {
+    const longitude = position.coords.longitude;
+    const latitude = position.coords.latitude;
+
+    if(this.user_position_label){
+        this.viewerComponent.cesiumElement.entities.remove(this.user_position_label);
+    }
+
+    this.user_position_label = this.viewerComponent.cesiumElement.entities.add({
+      position: Cartesian3.fromDegrees(longitude, latitude),
+      clampToGround: true,
+      label: {
+        text: "Your location",
+        scale: 0.8,
+        pixelOffset: new Cartesian2(0, -30),
+        font: "32px Helvetica",
+        fillColor: Color.YELLOW,
+        outlineColor: Color.BLACK,
+        outlineWidth: 2,
+        style: 2, // LabelStyle.FILL_AND_OUTLINE
+      },
+      point : {
+        color : Color.BLUE,
+        pixelSize : 15
+      }
+    });
+
+    // console.log("Camera.DEFAULT_VIEW_RECTANGLE")
+    // console.log(Camera.DEFAULT_VIEW_RECTANGLE)
+    // console.log(longitude)
+    // console.log(latitude)
+
+    // set home button center
+    Camera.DEFAULT_VIEW_RECTANGLE = new Rectangle.fromDegrees(
+      longitude - 1,
+      latitude - 1,
+      longitude + 1,
+      latitude + 1
+    );
+
+    // this.viewerComponent.cesiumElement.scene.camera.flyTo({
+    //   destination : Cartesian3.fromDegrees(longitude, latitude,  1000000)
+    // });
   }
 
   render() {
@@ -55,6 +143,7 @@ class CesiumViewer extends React.Component {
         // remove the clock and timeline for the stars behind the earth
         animation={false}
         timeline={false}
+        navigationInstructionsInitiallyVisible={true}
 
         // save reference for later use
 
@@ -105,8 +194,10 @@ class CesiumViewer extends React.Component {
             placeData.data.list.map((place) => {
               return (
                 <PointPrimitive
-                  position={Cartesian3.fromDegrees(place.geo[0], place.geo[1], 0)}
+                  position={Cartesian3.fromDegrees(place.geo[0], place.geo[1], 4000)}
                   color={Color.RED}
+                  // unsure if scalebydistance has big performance impact
+                  scaleByDistance={new NearFarScalar(1, 2, 1.5e6, .5)}
                   pixelSize={getPlaceSizeInPixels(place.size)}
 
                   onClick={async () => {
