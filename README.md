@@ -52,6 +52,7 @@ Note that the frontend project requires a .env.local file with the following var
 - Radio station list view (also using Radio browser API)
 - Allow users to submit corrections and new stations
 - Video streaming map
+- Allow running front and back end with one command (use concurrently)
 
 [Test it out here.]: <https://radio.andersan.com>
 [Radio browser API]: <https://api.radio-browser.info/>
