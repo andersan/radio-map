@@ -20,6 +20,7 @@ export default function Home() {
       <Head>
         <title>Radio map</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name = "viewport" content = "width=device-width, minimum-scale=1.0, maximum-scale = 1.0, user-scalable = no" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
         {/* <a href="https://www.vecteezy.com/free-vector/globe-icon">Globe Icon Vectors by Vecteezy</a> */}
       </Head>
