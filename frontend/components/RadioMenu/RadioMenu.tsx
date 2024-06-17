@@ -142,6 +142,7 @@ class RadioMenu extends React.Component {
     async fetchAndSelectPlace(placeId:string) {
         var placeInfo = await fetchSinglePlaceInfo(placeId);
         // document.getElementById("place-general-info").innerHTML = "Place general info: " + JSON.stringify(placeInfo);
+        console.log("fetchAndSelectPlace: " + JSON.stringify(placeInfo));
         this.setState({
             selectedPlace: placeInfo,
             channels: null
@@ -198,9 +199,12 @@ class RadioMenu extends React.Component {
         else if (item.page && item.page.url.split("/").pop() === "channels")
             // console.log("ALL CHANNELS AT A PLACE -- not yet implemented");
             this.fetchPlaceChannels(item.page.url.split("/")[3]);
-        else if (item.page)
+        else if (item.page) {
             // todo: add breadcrumbs to allow this 
-            this.fetchAndSelectPlace(item.page.url.split("/").pop());
+            this.fetchAndSelectPlace(item.page.url.split("/").pop()).then(() => {
+                this.selectChannel(item.href.split("/").pop());
+            });
+        }
         else
             this.selectChannel(item.href.split("/").pop());
     }

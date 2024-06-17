@@ -66,12 +66,26 @@ export async function customGetStreamUrl(channelId:string):Promise<string|undefi
         stream = (await axios.head(url, {headers: {"Accept": "*/*"}, transformRequest: function(data, headers) {
             delete headers.common;
             return data;
-        }}, ));
+        }
+        },));
+        console.log("stream: ", stream);
+        console.log("stream keys: " + Object.keys(stream));
+        console.log(Object.keys(stream.request?.res));
+        console.log(Object.keys(stream.request?._redirectable));
+        return stream.request.res.responseUrl ?? stream.request._redirectable._currentUrl ?? '';
     } catch (err) {
         console.error("Error in customGetStreamUrl");
         console.log(err);
         console.log(Object.keys(err));
-        return inspect(err, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)![0];
+        try {
+            return inspect(err, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)![0];
+        } catch (err2) {
+            console.error("Error in customGetStreamUrl 2");
+            console.log(err2);
+            console.log(Object.keys(err.request));
+            console.log(Object.keys(err.request?.res));
+            return err.request.res.responseUrl ?? '';
+        }
     }
     // setTimeout(() => { 
     //     console.log("stream keys: " + Object.keys(stream));
@@ -80,8 +94,6 @@ export async function customGetStreamUrl(channelId:string):Promise<string|undefi
     //     console.log(inspect(stream, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)!);
     //     console.log("hm");
     // }, 2000);
-    
-    return inspect(stream, true, 5).match(/https?:\/\/[^"']+listening-from[^"']+/g)![0];
 }
 
 export async function getSomeStream(/*channelId:string*/):Promise<string|undefined> {

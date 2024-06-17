@@ -50,11 +50,11 @@ export async function fetchSingleChannelInfo(channelId:string) {
 }
 
 export async function fetchStreamURL(channelId:string) {
-    console.log("fetching data --- fetchStreamURL");
+    console.log("fetching data --- fetchStreamURL 1");
     return fetch(baseURL + '/api/radio-direct/stream?' + new URLSearchParams({
         channelId: channelId,
     })).then((res) => {
-        console.log("res.json() --- fetchStreamURL");
+        console.log("res.json() --- fetchStreamURL 2");
         return res.json()
     });
 }
