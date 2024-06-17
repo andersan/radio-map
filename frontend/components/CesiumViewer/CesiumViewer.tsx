@@ -1,15 +1,13 @@
-import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
-// import { Cartesian3, Color, Ion } from "cesium";
-// import Viewer from "resium/src/Viewer";
-// import PointPrimitive from "resium/src/PointPrimitive";
-// import PointPrimitiveCollection from "resium/src/PointPrimitiveCollection";
-import Cartesian3 from "cesium/Source/Core/Cartesian3";
-import Cartesian2 from "cesium/Source/Core/Cartesian2";
-import Color from "cesium/Source/Core/Color";
-import Camera from "cesium/Source/Scene/Camera";
-import Rectangle from "cesium/Source/Core/Rectangle";
-import NearFarScalar from "cesium/Source/Core/NearFarScalar";
-import Ion from "cesium/Source/Core/Ion";
+// import { Viewer, PointPrimitive, PointPrimitiveCollection} from "resium";
+import { Cartesian3, Color, Ion, Rectangle, Camera, Cartesian2, NearFarScalar } from "cesium";
+import { PointPrimitive, PointPrimitiveCollection, Viewer } from "resium";
+// import Cartesian3 from "cesium/Source/Core/Cartesian3";
+// import Cartesian2 from "cesium/Source/Core/Cartesian2";
+// import Color from "cesium/Source/Core/Color";
+// import Camera from "cesium/Source/Scene/Camera";
+// import Rectangle from "cesium/Source/Core/Rectangle";
+// import NearFarScalar from "cesium/Source/Core/NearFarScalar";
+// import Ion from "cesium/Source/Core/Ion";
 import {fetchAllPlacesJSONData, /*fetchSinglePlaceChannels, fetchSinglePlaceInfo*/} from '../../shared/libs/rg-express-test-routes'
 import {/*fetchAllPlacesJSONData,*/ fetchSinglePlaceChannels, fetchSinglePlaceInfo, fetchSingleChannelInfo} from '../../shared/libs/rg-express-routes-real'
 // import {Place} from '../APIs/radio-garden-api/api'
@@ -38,6 +36,10 @@ function getPlaceSizeInPixels(size:number): number {
   return Math.max(10, Math.log(size) * 6);
 }
 
+async function waitForSeconds(seconds) {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+}
+
 
 Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN!;
 
@@ -45,6 +47,7 @@ class CesiumViewer extends React.Component {
   viewer;
   user_position_label;
   viewerComponent;
+  places;
 
   constructor(props:any) {
     super(props);
@@ -55,6 +58,19 @@ class CesiumViewer extends React.Component {
   componentDidMount(): void {
     console.log("CesiumViewer mounted!!!");
     console.log(this.viewerComponent);
+
+    this.finishMounting();
+  }
+
+  finishMounting(): void {
+    console.log("finishMounting");
+    if (!this.viewerComponent || !this.viewerComponent.cesiumElement) {
+      console.log("no viewerComponent");
+      waitForSeconds(0.05).then(() => {
+        this.finishMounting();
+      });
+      return;
+    }
     // document.viewerComponent = this.viewerComponent;
     this.viewerComponent.cesiumElement.scene.globe.showGroundAtmosphere = false;
     var viewer = this.viewerComponent;
@@ -82,6 +98,11 @@ class CesiumViewer extends React.Component {
     } else {
         alert("Geolocation is not supported by this browser.");
     }
+
+    // add all places to the map
+  this.setState({
+    places: placeData.data.list
+  });
   }
 
   selectClosestPlace(center) {
@@ -123,7 +144,7 @@ class CesiumViewer extends React.Component {
     // console.log(latitude)
 
     // set home button center
-    Camera.DEFAULT_VIEW_RECTANGLE = new Rectangle.fromDegrees(
+    Camera.DEFAULT_VIEW_RECTANGLE = Rectangle.fromDegrees(
       longitude - 1,
       latitude - 1,
       longitude + 1,
@@ -164,10 +185,10 @@ class CesiumViewer extends React.Component {
         // remove stars
         skyBox={false}
         
-        ref={e => {
-          console.log("RENDER viewer");
-          // this.state.viewer = e && e.cesiumElement;
-        }}
+        // ref={e => {
+        //   console.log("RENDER viewer");
+        //   // this.state.viewer = e && e.cesiumElement;
+        // }}
 
         // imageryProvider={new TileMapServiceImageryProvider({
         //   // url: buildModuleUrl("Assets/Textures/NaturalEarthII"),
@@ -186,12 +207,13 @@ class CesiumViewer extends React.Component {
           bottom: 0,
         }}
         ref={viewer => { 
+          console.log("RENDER viewer");
           this.viewerComponent = viewer;
         }}
-        >
-        { <PointPrimitiveCollection>
+      > 
+        this.state.places ?{ <PointPrimitiveCollection>
           {
-            placeData.data.list.map((place) => {
+            (this.state?.places ?? []).map((place) => {
               return (
                 <PointPrimitive
                   position={Cartesian3.fromDegrees(place.geo[0], place.geo[1], 4000)}
@@ -206,6 +228,7 @@ class CesiumViewer extends React.Component {
                     var placeInfo = await fetchSinglePlaceInfo(place.url.split("/").pop());
                     console.log(placeInfo);
                     // placeInfo = placeInfo.place;
+                    // @ts-ignore
                     this.props.setSelectedPlace(placeInfo);
                   }}
 
@@ -217,6 +240,7 @@ class CesiumViewer extends React.Component {
                     channelInfo = channelInfo.content[0].items[Math.floor(Math.random() * channelInfo.content[0].items.length)];
                     console.log(channelInfo);
                     console.log("set selected staton.");
+                    // @ts-ignore
                     this.props.setSelectedChannel(channelInfo);
                     console.log("finished set selected staton.");
                   }}
