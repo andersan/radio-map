@@ -26,15 +26,15 @@ git clone https://github.com/andersan/radio-map.git
 Start the express server in one terminal: 
 ```sh
 cd backend
-npm install
-npm run dev
+yarn install
+yarn run dev
 ```
 
 Start the frontend in another terminal:
 ```sh
 cd frontend
-npm install
-npm run dev
+yarn install
+yarn run dev
 ```
 
 For debugging the backend, use `npm run dev >> logfile.log`. Anything crashing the backend is likely caused by an uncaught API issue.
