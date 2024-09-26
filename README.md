@@ -56,3 +56,14 @@ Note that the frontend project requires a .env.local file with the following var
 
 [Test it out here.]: <https://radio.andersan.com>
 [Radio browser API]: <https://api.radio-browser.info/>
+
+## get remote server ready
+
+These steps work on an amazon linux x86 (non-arm) VM with 2gb RAM or more:
+1. Deploy code with deploy-code.sh
+2. Install nginx with `sudo dnf install nginx`
+3. Paste nginx config from radio.andersan.com.conf into /etc/nginx/conf.d/radio-map.conf
+4. Install node 20 as shown here https://tecadmin.net/install-latest-nodejs-amazon-linux/
+5. Install yarn and pm2 globally
+6. Build and run the project's frontend and backend
+7. Ensure DNS and network settings have been set up properly for the VM

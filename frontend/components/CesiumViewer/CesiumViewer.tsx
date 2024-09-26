@@ -47,7 +47,6 @@ class CesiumViewer extends React.Component {
   viewer;
   user_position_label;
   viewerComponent;
-  places;
 
   constructor(props:any) {
     super(props);
@@ -211,7 +210,7 @@ class CesiumViewer extends React.Component {
           this.viewerComponent = viewer;
         }}
       > 
-        this.state.places ?{ <PointPrimitiveCollection>
+        { <PointPrimitiveCollection>
           {
             (this.state?.places ?? []).map((place) => {
               return (
