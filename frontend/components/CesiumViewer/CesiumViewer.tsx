@@ -61,15 +61,39 @@ class CesiumViewer extends React.Component {
     this.finishMounting();
   }
 
+  componentWillUnmount() {
+    // Clean up any references or event listeners here
+    if (this.viewerComponent && this.viewerComponent.cesiumElement) {
+      // this.viewerComponent.cesiumElement.destroy();
+    }
+  }
+
+
   finishMounting(): void {
     console.log("finishMounting");
+    console.log(this.viewerComponent);
+    console.log(this.viewerComponent.cesiumElement);
+
     if (!this.viewerComponent || !this.viewerComponent.cesiumElement) {
       console.log("no viewerComponent");
-      waitForSeconds(0.05).then(() => {
+      waitForSeconds(0.2).then(() => {
         this.finishMounting();
       });
       return;
     }
+
+    // somehow cesiumElement is not defined here sometimes, return
+
+    try {
+      if (!this.viewerComponent.cesiumElement.scene) {
+        console.log("no scene");
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+
     // document.viewerComponent = this.viewerComponent;
     this.viewerComponent.cesiumElement.scene.globe.showGroundAtmosphere = false;
     var viewer = this.viewerComponent;
@@ -99,9 +123,14 @@ class CesiumViewer extends React.Component {
     }
 
     // add all places to the map
-  this.setState({
-    places: placeData.data.list
-  });
+    // TODO: this is adding 12000 places, which is a lot.
+    // hard coded to only add 1000 for now.
+
+    const placesToUse = placeData.data.list//.slice(0, 1000);
+    
+    this.setState({
+      places: placesToUse
+    });
   }
 
   selectClosestPlace(center) {
@@ -110,7 +139,19 @@ class CesiumViewer extends React.Component {
     // TODO: select closest place to camera position
   }
 
-  showPosition(position) {
+  showPosition(position, count = 0) {
+    if (count > 20) {
+      console.log("showPosition failed");
+      return;
+    }
+    if (!this.viewerComponent || !this.viewerComponent.cesiumElement) {
+      console.log("no viewerComponent");
+      waitForSeconds(0.5).then(() => {
+        this.showPosition(position);
+      });
+      return;
+    }
+
     const longitude = position.coords.longitude;
     const latitude = position.coords.latitude;
 
@@ -156,6 +197,8 @@ class CesiumViewer extends React.Component {
   }
 
   render() {
+    console.log("RENDER CesiumViewer");
+    console.log(this.state);
     return (
       <Viewer 
         // terrainProvider={terrainProvider}
