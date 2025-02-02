@@ -192,21 +192,32 @@ class RadioMenu extends React.Component {
 
         // TODO: build logic to load a new place, or open popular station page
         // url may also indicate a page, like local popular stations?
-        if (item.url && item.url.split("/").pop() === "popular")
-            // console.log("POPULAR STATIONS -- not yet implemented");
+        if (item.url && item.url.split("/").pop() === "popular") {
+            console.log("POPULAR STATIONS -- not yet implemented");
             this.fetchPopularChannels(item.url.split("/")[3])
             // this.openPage(item.url);
-        else if (item.page && item.page.url.split("/").pop() === "channels")
-            // console.log("ALL CHANNELS AT A PLACE -- not yet implemented");
+        }
+        else if (item.page && item.page.url && item.page.url.split("/").pop() === "channels") {
+            console.log("ALL CHANNELS AT A PLACE -- not yet implemented");
             this.fetchPlaceChannels(item.page.url.split("/")[3]);
-        else if (item.page) {
+        }
+        else if (item.page && item.page.url) {
             // todo: add breadcrumbs to allow this 
-            this.fetchAndSelectPlace(item.page.url.split("/").pop()).then(() => {
-                this.selectChannel(item.href.split("/").pop());
+            const urlArr = item.page.url.split("/")
+            console.log("selectItem fetchAndSelectPlace: ", urlArr[urlArr.length - 1]);
+            this.fetchAndSelectPlace(urlArr[urlArr.length - 1]).then(() => {
+                console.log("selectItem selectChannel after fetchAndSelectPlace: ");
+                console.log(JSON.stringify(item));
+                this.selectChannel(urlArr.pop());
             });
         }
-        else
+        else if (item.href) {
+            console.log("selectItem selectChannel: ");
             this.selectChannel(item.href.split("/").pop());
+        }
+        else {
+            console.error("Error in selectItem: item has no href or page.url");
+        }
     }
 
     render() {

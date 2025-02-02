@@ -265,6 +265,7 @@ class CesiumViewer extends React.Component {
                   pixelSize={getPlaceSizeInPixels(place.size)}
 
                   onClick={async () => {
+                    console.log('place click')
                     console.log("clicked on place " + place.url.split("/")[2]);
                     console.log("place " + place.url.split("/").pop());
                     var placeInfo = await fetchSinglePlaceInfo(place.url.split("/").pop());
@@ -275,10 +276,11 @@ class CesiumViewer extends React.Component {
                   }}
 
                   onMiddleClick={async () => {
+                    console.log('place middle click')
                     console.log("middle clicked on place " + place.url.split("/")[2]);
                     var channelInfo = await fetchSinglePlaceChannels(place.url.split("/").pop());
                     console.log(channelInfo);
-                    channelInfo = channelInfo.data;
+                    channelInfo = channelInfo;
                     channelInfo = channelInfo.content[0].items[Math.floor(Math.random() * channelInfo.content[0].items.length)];
                     console.log(channelInfo);
                     console.log("set selected staton.");

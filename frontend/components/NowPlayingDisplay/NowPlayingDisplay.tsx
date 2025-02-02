@@ -48,22 +48,22 @@ export default class NowPlayingDisplay extends React.Component {
     console.log(this.props.selectedPlace);
 
     if (prevProps.selectedPlace !== this.props.selectedPlace) {
-      console.log("selectedPlace updated");
+      console.log("selectedPlace updated", this.props.selectedPlace);
       this.setState({ selectedPlace: this.props.selectedPlace});
     }
 
     if (prevProps.selectedChannel !== this.props.selectedChannel) {
-      console.log("selectedChannel updated");
+      console.log("selectedChannel updated", this.props.selectedChannel);
       this.setState({ selectedChannel: this.props.selectedChannel});
     }
 
     if (prevProps.isPlaying !== this.props.isPlaying) {
-      console.log("isPlaying updated");
+      console.log("isPlaying updated", this.props.isPlaying);
       this.setState({ isPlaying: this.props.isPlaying});
     }
 
     if (prevProps.streamURL !== this.props.streamURL) {
-      console.log("streamURL updated");
+      console.log("streamURL updated", this.props.streamURL);
       this.setState({ streamURL: this.props.streamURL});
       this.player.channelStreamURL = this.props.streamURL;
       this.player.playSound();

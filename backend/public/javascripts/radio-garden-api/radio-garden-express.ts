@@ -84,7 +84,15 @@ export async function customGetStreamUrl(channelId:string):Promise<string|undefi
             console.log(err2);
             console.log(Object.keys(err.request));
             console.log(Object.keys(err.request?.res));
-            return err.request.res.responseUrl ?? '';
+            if (err.request.res.responseUrl)
+                return err.request.res.responseUrl;
+        }
+        try {
+            const resp = err.request._options.href;
+            return resp
+        } catch (err2) {
+            console.error("Error in customGetStreamUrl 3");
+            return '';
         }
     }
     // setTimeout(() => { 

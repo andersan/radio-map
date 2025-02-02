@@ -60,7 +60,7 @@ class RadioMenuList extends React.Component {
         }
         else
             this.forceUpdate(prevProps, this);
-        console.log("componentDidUpdate RadioMenuList");
+        console.log("componentDidUpdate RadioMenuList done");
     }
 
     forceUpdate(prevProps, thisFromParent) {
@@ -251,8 +251,17 @@ class RadioMenuList extends React.Component {
         for (let i = 0; i < listItems.length; i++) {
             flattenedListItems.push(listItems[i]);
             if (listItems[i].items) {
+                console.log('flattening inner list items');
                 for (let j = 0; j < listItems[i].items.length; j++) {
-                    flattenedListItems.push(listItems[i].items[j]);
+                    console.log(listItems[i].items[j]);
+                    if (listItems[i].items[j].title) {
+                        flattenedListItems.push(listItems[i].items[j]);
+                    }
+                    else if (listItems[i].items[j].page) {
+                        const newItem = listItems[i].items[j]
+                        newItem.title = newItem.page.title;
+                        flattenedListItems.push(newItem);
+                    }
                 }
             }
         }
