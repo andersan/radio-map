@@ -1,5 +1,6 @@
 var production = process.env.NEXT_PUBLIC_ENVIRONMENT === 'production';
 var baseURL = production ? 'https://radio.andersan.com' : 'http://localhost:5000';
+// var baseURL = 'http://localhost:5000';
 
 export async function fetchData() {
     console.log("fetching data --- frontend express test");
